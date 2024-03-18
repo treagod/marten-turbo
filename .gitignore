@@ -1,0 +1,13 @@
+.DS_Store
+.ideas/
+.vscode/
+/bin/
+/lib/
+/.shards/
+/coverage/
+/run_tests
+*.dwarf
+.icr_*
+*.db
+/shard.lock
+.spec.env.json
