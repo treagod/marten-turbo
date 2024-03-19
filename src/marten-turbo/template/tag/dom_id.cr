@@ -28,17 +28,21 @@ module MartenTurbo
             generate_id_for_model(instance.raw.as(Marten::Model), prefix)
           else
             dom_id = instance.to_s
-            prefix ? "#{prefix.to_s}_#{dom_id}" : dom_id
+            prefix ? "#{prefix}_#{dom_id}" : dom_id
           end
         end
 
-        private def formatted_prefix(prefix, substitute = nil)
-          prefix ? "#{prefix.to_s}_" : substitute ? "#{substitute}_" : ""
+        private def formatted_prefix(prefix)
+          prefix ? "#{prefix}_" : ""
         end
 
         private def generate_id_for_model(model, prefix)
           identifier = model.class.name.downcase.gsub(RE_NAMESPACE_IDENTIFIER, '_')
-          model.new_record? ? "#{formatted_prefix(prefix, "new")}#{identifier}" : "#{formatted_prefix(prefix)}#{identifier}_#{model.pk}"
+          if model.new_record?
+            "#{formatted_prefix(prefix)}new_#{identifier}"
+          else
+            "#{formatted_prefix(prefix)}#{identifier}_#{model.pk}"
+          end
         end
 
         RE_NAMESPACE_IDENTIFIER = /(?:\:\:|\.)/
