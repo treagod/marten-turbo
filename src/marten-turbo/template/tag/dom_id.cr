@@ -37,9 +37,11 @@ module MartenTurbo
         end
 
         private def generate_id_for_model(model, prefix)
-          identifier = model.class.name.downcase.gsub(/(?:\:\:|\.)/, '_')
+          identifier = model.class.name.downcase.gsub(RE_NAMESPACE_IDENTIFIER, '_')
           model.new_record? ? "#{formatted_prefix(prefix, "new")}#{identifier}" : "#{formatted_prefix(prefix)}#{identifier}_#{model.pk}"
         end
+
+        RE_NAMESPACE_IDENTIFIER = /(?:\:\:|\.)/
       end
     end
   end
