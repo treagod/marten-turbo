@@ -65,7 +65,7 @@ describe MartenTurbo::Template::Tag::DomId do
 
       context = Marten::Template::Context{"tag" => Tag.new}
 
-      dom_id.render(context).should eq "prefix_tag"
+      dom_id.render(context).should eq "prefix_new_tag"
     end
 
     it "renders the correct dom id for a saved marten model with a namespace" do
@@ -96,7 +96,7 @@ describe MartenTurbo::Template::Tag::DomId do
 
       context = Marten::Template::Context{"tag" => Namespaced::Tag.new}
 
-      dom_id.render(context).should eq "prefix_namespaced_tag"
+      dom_id.render(context).should eq "prefix_new_namespaced_tag"
     end
 
     it "renders the correct dom id for a saved marten model with a prefix" do
