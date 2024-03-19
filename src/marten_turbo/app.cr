@@ -1,3 +1,4 @@
+require "./ext/**"
 require "./handlers/**"
 require "./models/**"
 require "./schemas/**"
