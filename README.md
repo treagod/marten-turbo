@@ -3,6 +3,7 @@
   <span>Marten Turbo</span>
 </h1>
 
+[![GitHub Release](https://img.shields.io/github/v/release/treagod/marten-turbo?style=flat)](https://github.com/treagod/marten-turbo/releases) 
 [![Marten Turbo Specs](https://github.com/treagod/marten-turbo/actions/workflows/specs.yml/badge.svg)](https://github.com/treagod/marten-turbo/actions/workflows/specs.yml)
 [![QA](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml/badge.svg)](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml)
 
