@@ -1,0 +1,39 @@
+name: Crystal CI
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  specs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal: [
+          '1.9.2',
+          '1.10.0',
+          '1.11.0',
+          'nightly',
+        ]
+    container:
+      image: crystallang/crystal:${{ matrix.crystal }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install required packages
+      run: |
+        apt-get update
+        apt-get -yqq install libsqlite3-dev
+    - name: Install shards
+      run: shards install --ignore-crystal-version
+    - name: Cache Crystal
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/crystal
+        key: ${{ runner.os }}-crystal
+    - name: Run specs
+      run: crystal spec
