@@ -49,7 +49,7 @@ Identifier will respect your namespace of the model. I.e. if you have an Article
 
 ## Handlers
 
-Marten Turbo provides an extension to the generic Marten handlers. For example to create a record the `MartenTurbo::Handlers::RecordCreate` is used:
+Marten Turbo provides an extension to the generic Marten handlers:
 
 __Record Creation__: To create a record, use 
 
