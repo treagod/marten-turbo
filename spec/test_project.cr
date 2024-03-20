@@ -20,3 +20,7 @@ Marten.configure :test do |config|
     db.name = ":memory:"
   end
 end
+
+Marten.routes.draw do
+  path "/dummy", SuccessHandler, name: "dummy"
+end

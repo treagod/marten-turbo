@@ -1,7 +1,5 @@
 require "./spec_helper"
 
-require "./spec_helper"
-
 describe Marten::HTTP::Request do
   describe "#turbo?" do
     it "correctly returns true if the request is a turbo request" do

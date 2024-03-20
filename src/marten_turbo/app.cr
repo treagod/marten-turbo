@@ -1,7 +1,5 @@
 require "./ext/**"
 require "./handlers/**"
-require "./models/**"
-require "./schemas/**"
 require "./template/**"
 
 module MartenTurbo
