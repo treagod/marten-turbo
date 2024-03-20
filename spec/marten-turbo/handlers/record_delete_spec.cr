@@ -76,7 +76,6 @@ describe MartenTurbo::Handlers::RecordCreate do
 
     it "deletes the record and returns a delete turbo stream when a turbo request was made and a template is given" do
       tag_1 = Tag.create!(name: "Tag 1")
-      tag_2 = Tag.create!(name: "Tag 2")
 
       params = Marten::Routing::MatchParameters{"pk" => tag_1.pk!}
       request = Marten::HTTP::Request.new(
@@ -94,7 +93,8 @@ describe MartenTurbo::Handlers::RecordCreate do
       response = handler.post
 
       response.should_not be_a Marten::HTTP::Response::Found
-      response.content.strip.should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag_1.pk!}\"></turbo-stream>"
+      response.content.strip.should contain "<turbo-stream action=\"remove\" " \
+                                            "target=\"tag_#{tag_1.pk!}\"></turbo-stream>"
     end
   end
 end
