@@ -28,14 +28,15 @@ Identifier will respect your namespace of the model. I.e. if you have an Article
 Marten Turbo provides an extension to the generic Marten handlers. For example to create a record the `MartenTurbo::Handlers::RecordCreate` is used:
 
 ```crystal
-class MyTurboForm < MartenTurbo::Handlers::RecordCreate
-  model MyModel
-  schema MyFormSchema
-  template_name "my_form.html"
-  success_route_name "my_form_success"
-  turbo_stream_template "my_form.turbo_stream.html"
+class ArticleCreateHandler < MartenTurbo::Handlers::RecordCreate
+  model Article
+  schema ArticleSchema
+  template_name "articles/create.html"
+  turbo_stream_name "articles/create.turbo_stream.html"
+  success_route_name "articles"
 end
 ```
 
-Notice how we use `MartenTurbo::` instead of `Marten::`. Also the `#turbo_stream_template` class method gives you the option to define a turbo stream template which is
-rendered instead of the normal template if a Turbo application is detected.
+Notice how we use `MartenTurbo::Handlers::RecordCreate` instead of `Marten::Handlers::RecordCreate`.
+Also the `#turbo_stream_name` class method gives you the option to define a turbo stream template which is
+rendered instead of the normal template if a turbo request is made.
