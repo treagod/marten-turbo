@@ -3,6 +3,8 @@
   <span>Marten Turbo</span>
 </h1>
 
+[![QA](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml/badge.svg)](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml)
+
 ## Tags
 
 Marten Turbo introduces a new template tag `dom_id`, which supports the creation of turbo frame ids for Marten models
