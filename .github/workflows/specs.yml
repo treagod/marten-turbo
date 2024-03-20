@@ -1,4 +1,4 @@
-name: Crystal CI
+name: Marten Turbo Specs
 
 on:
   push:
