@@ -1,0 +1,23 @@
+name: QA
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:1.11.0
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install shards
+        run: shards install --ignore-crystal-version
+      - name: Run crystal format tool
+        run: crystal tool format
+      - name: Run ameba
+        run: bin/ameba
