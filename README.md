@@ -70,7 +70,7 @@ rendered instead of the normal template if a turbo request is made.
 __Record Update__: To update a record, use 
 
 ```crystal
-class ArticleCreateHandler < MartenTurbo::Handlers::RecordUpdate
+class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
   model Article
   schema ArticleSchema
   template_name "articles/update.html"
@@ -82,7 +82,7 @@ end
 __Record Deletion__: To delete a record, use 
 
 ```crystal
-class ArticleCreateHandler < MartenTurbo::Handlers::RecordUpdate
+class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
   model Article
   template_name "articles/delete.html"
   turbo_stream_name "articles/delete.turbo_stream.html"
