@@ -26,7 +26,7 @@ module MartenTurbo
         if request.turbo? && turbo_stream_name
           render_turbo_stream context
         else
-          HTTP::Response::Found.new(success_url)
+          Marten::HTTP::Response::Found.new(success_url)
         end
       end
 
