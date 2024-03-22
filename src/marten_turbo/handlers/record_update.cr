@@ -1,3 +1,5 @@
+require "./concerns/turbo_streamable"
+
 module MartenTurbo
   module Handlers
     # Handler for updating model records with optional Turbo Stream support.
@@ -19,7 +21,7 @@ module MartenTurbo
     # end
     # ```
     class RecordUpdate < Marten::Handlers::RecordUpdate
-      class_getter turbo_stream_name : String?
+      include TurboStreamable
 
       def process_valid_schema
         record.update!(schema.validated_data.select(model.fields.map(&.id)))
@@ -29,21 +31,6 @@ module MartenTurbo
         else
           Marten::HTTP::Response::Found.new success_url
         end
-      end
-
-      def render_turbo_stream(
-        context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
-        status : ::HTTP::Status | Int32 = 200
-      )
-        render(turbo_stream_name.not_nil!, context: context, status: status)
-      end
-
-      def self.turbo_stream_name(turbo_stream_name : String?)
-        @@turbo_stream_name = turbo_stream_name
-      end
-
-      def turbo_stream_name : String | Nil
-        self.class.turbo_stream_name
       end
     end
   end
