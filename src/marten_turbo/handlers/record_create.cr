@@ -1,3 +1,5 @@
+require "./concerns/turbo_streamable"
+
 module MartenTurbo
   module Handlers
     # Handler for creating model records, with optional Turbo Stream support.
@@ -20,7 +22,8 @@ module MartenTurbo
     # end
     # ```
     class RecordCreate < Marten::Handlers::RecordCreate
-      class_getter turbo_stream_name : String?
+      include TurboStreamable
+
       class_getter record_context_name : String = "record"
 
       def self.record_context_name(name : String | Symbol)
@@ -37,21 +40,6 @@ module MartenTurbo
         else
           Marten::HTTP::Response::Found.new success_url
         end
-      end
-
-      def render_turbo_stream(
-        context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
-        status : ::HTTP::Status | Int32 = 200
-      )
-        render(turbo_stream_name.not_nil!, context: context, status: status)
-      end
-
-      def self.turbo_stream_name(turbo_stream_name : String?)
-        @@turbo_stream_name = turbo_stream_name
-      end
-
-      def turbo_stream_name : String | Nil
-        self.class.turbo_stream_name
       end
     end
   end
