@@ -3,9 +3,11 @@
   <span>Marten Turbo</span>
 </h1>
 
-[![GitHub Release](https://img.shields.io/github/v/release/treagod/marten-turbo?style=flat)](https://github.com/treagod/marten-turbo/releases) 
+[![GitHub Release](https://img.shields.io/github/v/release/treagod/marten-turbo?style=flat)](https://github.com/treagod/marten-turbo/releases)
 [![Marten Turbo Specs](https://github.com/treagod/marten-turbo/actions/workflows/specs.yml/badge.svg)](https://github.com/treagod/marten-turbo/actions/workflows/specs.yml)
 [![QA](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml/badge.svg)](https://github.com/treagod/marten-turbo/actions/workflows/qa.yml)
+
+Marten Turbo provides helpers to interact with Turbo applications using the <a href="https://martenframework.com/">Marten Framework</a>.
 
 ## Installation
 
@@ -51,7 +53,7 @@ Identifier will respect your namespace of the model. I.e. if you have an Article
 
 Marten Turbo provides an extension to the generic Marten handlers:
 
-__Record Creation__: To create a record, use 
+__Record Creation__: To create a record, use
 
 ```crystal
 class ArticleCreateHandler < MartenTurbo::Handlers::RecordCreate
@@ -67,7 +69,7 @@ Notice how we use `MartenTurbo::Handlers::RecordCreate` instead of `Marten::Hand
 Also the `#turbo_stream_name` class method gives you the option to define a turbo stream template which is
 rendered instead of the normal template if a turbo request is made.
 
-__Record Update__: To update a record, use 
+__Record Update__: To update a record, use
 
 ```crystal
 class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
@@ -79,7 +81,7 @@ class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
 end
 ```
 
-__Record Deletion__: To delete a record, use 
+__Record Deletion__: To delete a record, use
 
 ```crystal
 class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
