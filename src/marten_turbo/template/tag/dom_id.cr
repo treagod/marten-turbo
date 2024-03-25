@@ -1,8 +1,11 @@
+require "./concerncs/dom_identifier"
+
 module MartenTurbo
   module Template
     module Tag
       class DomId < Marten::Template::Tag::Base
         include Marten::Template::Tag::CanSplitSmartly
+        include Identifiable
 
         @instance_name : Marten::Template::Variable
         @prefix : Marten::Template::Variable? = nil
@@ -21,31 +24,8 @@ module MartenTurbo
         end
 
         def render(context : Marten::Template::Context) : String
-          instance = @instance_name.resolve(context)
-          prefix = @prefix.try(&.resolve(context))
-
-          if instance.raw.is_a? Marten::Model
-            generate_id_for_model(instance.raw.as(Marten::Model), prefix)
-          else
-            dom_id = instance.to_s
-            prefix ? "#{prefix}_#{dom_id}" : dom_id
-          end
+          create_dom_id @instance_name.resolve(context), @prefix.try(&.resolve(context))
         end
-
-        private def formatted_prefix(prefix)
-          prefix ? "#{prefix}_" : ""
-        end
-
-        private def generate_id_for_model(model, prefix)
-          identifier = model.class.name.downcase.gsub(RE_NAMESPACE_IDENTIFIER, '_')
-          if model.new_record?
-            "#{formatted_prefix(prefix)}new_#{identifier}"
-          else
-            "#{formatted_prefix(prefix)}#{identifier}_#{model.pk}"
-          end
-        end
-
-        RE_NAMESPACE_IDENTIFIER = /(?:\:\:|\.)/
       end
     end
   end
