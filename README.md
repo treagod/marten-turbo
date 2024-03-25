@@ -48,6 +48,43 @@ Marten Turbo introduces a new template tag `dom_id`, which supports the creation
 
 Identifier will respect your namespace of the model. I.e. if you have an Article model in the app blogging the generated id will be `blogging_article_1`.
 
+Marten Turbo also provides a turbo stream tag helper
+
+```html
+{% turbo_stream.append "articles" do %}
+  <div class="{% dom_id article %}">
+    {{ article.name }}
+  </div>
+{% end_turbostream %}
+
+<!--
+  <turbo-stream action="append" target="articles">
+    <template>
+      <div class="article_1">
+        My First Article
+      </div>
+    </template>
+  </turbo-stream>
+-->
+
+<!-- or in one line -->
+{% turbo_stream.append "articles" template: "articles/article.html" %}
+<!--
+  <turbo-stream action="append" target="articles">
+    <template>
+      content of "articles/article.html"
+    </template>
+  </turbo-stream>
+-->
+
+<!-- dom_id is automatically applied if targeting a record -->
+{% turbo_stream.remove article %}
+<!--
+  <turbo-stream action="remove" target="article_1">
+  </turbo-stream>
+-->
+```
+
 
 ## Handlers
 
