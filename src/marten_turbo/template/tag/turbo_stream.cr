@@ -9,29 +9,22 @@ module MartenTurbo
         include Identifiable
 
         @turbo_stream_nodes : Marten::Template::NodeSet?
-        @action : String
+        @action_filter : Marten::Template::FilterExpression
         @target_id : Marten::Template::Variable
 
         def initialize(parser : Marten::Template::Parser, source : String)
           parts = split_smartly(source)
 
-          tag_name_parts = parts[0].split(".")
 
-          if tag_name_parts.size != 2
+          if parts.size < 3
             raise Marten::Template::Errors::InvalidSyntax.new(
-              "Malformed turbo_stream tag: you must define an action"
+              "Malformed turbo_stream tag: you must define an action and a target id"
             )
           end
 
-          @action = tag_name_parts[1]
+          @action_filter = Marten::Template::FilterExpression.new(parts[1])
 
-          if parts.size < 2
-            raise Marten::Template::Errors::InvalidSyntax.new(
-              "Malformed turbo_stream tag: you must define a target id"
-            )
-          end
-
-          @target_id = Marten::Template::Variable.new(parts[1])
+          @target_id = Marten::Template::Variable.new(parts[2])
 
           if parts[-1] == "do"
             @turbo_stream_nodes = parser.parse(up_to: {"end_turbostream"})
@@ -57,15 +50,16 @@ module MartenTurbo
           TEMPLATE_TAG
         end
 
-        private def render_turbo_stream_tag(target_id, content)
+        private def render_turbo_stream_tag(action, target_id, content)
           <<-TURBO_STREAM_TAG
-            <turbo-stream action="#{@action}" target="#{target_id}">
+            <turbo-stream action="#{action}" target="#{target_id}">
               #{render_template_tag(content)}
             </turbo-stream>
           TURBO_STREAM_TAG
         end
 
         def render(context : Marten::Template::Context) : String
+          action = @action_filter.resolve(context).to_s
           content = if turbo_stream_nodes = @turbo_stream_nodes
                       turbo_stream_nodes.render(context)
                     else
@@ -98,7 +92,7 @@ module MartenTurbo
             content = template.render(context)
           end
 
-          render_turbo_stream_tag(create_dom_id(@target_id.resolve(context)), content)
+          render_turbo_stream_tag(action, create_dom_id(@target_id.resolve(context)), content)
         end
       end
     end

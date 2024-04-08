@@ -14,13 +14,13 @@ describe MartenTurbo::Template::Tag::TurboStream do
     end
 
     it "raises if turbo_stream does not define a target_id" do
-      parser = Marten::Template::Parser.new("{% turbo_stream.append %}")
+      parser = Marten::Template::Parser.new("{% turbo_stream 'append' %}")
 
       expect_raises(
         Marten::Template::Errors::InvalidSyntax,
-        "Malformed turbo_stream tag: you must define a target id"
+        "Malformed turbo_stream tag: you must define an action and a target id"
       ) do
-        MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append")
+        MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append'")
       end
     end
 
@@ -35,7 +35,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
         Marten::Template::Errors::InvalidSyntax,
         "Unclosed tags, expected: end_turbostream"
       ) do
-        MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append 'tags' do")
+        MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' 'tags' do")
       end
     end
   end
@@ -43,7 +43,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
   describe "#render" do
     it "properly renders a turbo-stream tag with the correct action and target" do
       parser = Marten::Template::Parser.new("")
-      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.remove 'my-id'")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'remove' 'my-id'")
 
       content = tag.render(Marten::Template::Context.new)
       content.should contain "<turbo-stream action=\"remove\" target=\"my-id\">"
@@ -54,7 +54,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
       tag_model = Tag.create!(name: "Marten Turbo")
 
       parser = Marten::Template::Parser.new("")
-      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.remove tag")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'remove' tag")
 
       context = Marten::Template::Context{"tag" => tag_model}
 
