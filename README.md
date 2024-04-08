@@ -51,7 +51,7 @@ Identifier will respect your namespace of the model. I.e. if you have an Article
 Marten Turbo also provides a turbo stream tag helper
 
 ```html
-{% turbo_stream.append "articles" do %}
+{% turbo_stream 'append' "articles" do %}
   <div class="{% dom_id article %}">
     {{ article.name }}
   </div>
@@ -68,7 +68,7 @@ Marten Turbo also provides a turbo stream tag helper
 -->
 
 <!-- or in one line -->
-{% turbo_stream.append "articles" template: "articles/article.html" %}
+{% turbo_stream 'append' "articles" template: "articles/article.html" %}
 <!--
   <turbo-stream action="append" target="articles">
     <template>
@@ -78,7 +78,7 @@ Marten Turbo also provides a turbo stream tag helper
 -->
 
 <!-- dom_id is automatically applied if targeting a record -->
-{% turbo_stream.remove article %}
+{% turbo_stream 'remove' article %}
 <!--
   <turbo-stream action="remove" target="article_1">
   </turbo-stream>
