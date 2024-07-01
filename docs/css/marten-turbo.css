@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+body {
+    font-family: "Nunito Sans", sans-serif !important;
+    font-optical-sizing: auto;
+}
+
+.navbar.bg-primary {
+    background: #fdfdfd !important;
+}
+
+.navbar.bg-primary .navbar-brand {
+    color: #eb6864;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.navbar-brand::before {
+    content: '';
+    background-image: url(https://github.com/treagod/marten-turbo/raw/main/logo.svg);
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-size: 32px 32px;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: #f5f4f4;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fdfdfd !important;
+    background-color: #eb6864;
+}
+
+.nav-link,
+a {
+    color: #eb6864 !important;
+}
+
+.nav-link:hover,
+a:hover {
+    color: #ee918e !important;
+}
+
+.bg-secondary {
+    background-color: #f5f4f4 !important;
+}
+
+body::before {
+    background: none;
+}
+
+.navbar {
+    box-shadow: 0 1px 4px #00000033;
+}

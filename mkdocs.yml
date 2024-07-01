@@ -1,0 +1,17 @@
+site_name: Marten Turbo
+site_description: Streamline your Turbo applications with Marten Turbo
+site_url: https://example.com/marten-turbo/  # Replace with the actual URL
+site_author: Marvin Ahlgrimm
+
+nav:
+  - Installation: 'installation.md'
+  - Getting Started: getting_started.md
+  - Handlers: handlers.md
+
+extra_css:
+  - css/marten-turbo.css
+
+markdown_extensions:
+  - attr_list
+
+dev_addr: 127.0.0.1:8888
