@@ -31,6 +31,10 @@ module MartenTurbo
           Marten::HTTP::Response::Found.new(success_url)
         end
       end
+
+      def delete
+        post
+      end
     end
   end
 end
