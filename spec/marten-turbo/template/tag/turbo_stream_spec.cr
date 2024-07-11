@@ -33,7 +33,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
 
       expect_raises(
         Marten::Template::Errors::InvalidSyntax,
-        "Unclosed tags, expected: end_turbostream"
+        "Unclosed tags, expected: end_turbo_stream"
       ) do
         MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' 'tags' do")
       end
@@ -116,7 +116,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
       parser = Marten::Template::Parser.new(
         <<-TEMPLATE
         <p>some content</p>
-        {% end_turbostream %}
+        {% end_turbo_stream %}
         TEMPLATE
       )
       tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append 'tags' do")
