@@ -15,7 +15,6 @@ module MartenTurbo
         def initialize(parser : Marten::Template::Parser, source : String)
           parts = split_smartly(source)
 
-
           if parts.size < 3
             raise Marten::Template::Errors::InvalidSyntax.new(
               "Malformed turbo_stream tag: you must define an action and a target id"
