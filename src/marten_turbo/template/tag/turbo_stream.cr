@@ -26,7 +26,7 @@ module MartenTurbo
           @target_id = Marten::Template::Variable.new(parts[2])
 
           if parts[-1] == "do"
-            @turbo_stream_nodes = parser.parse(up_to: {"end_turbostream"})
+            @turbo_stream_nodes = parser.parse(up_to: {"end_turbo_stream"})
             parser.shift_token
             kwargs_parts = parts[2...-2]
           else

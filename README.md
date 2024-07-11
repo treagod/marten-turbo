@@ -55,7 +55,7 @@ Marten Turbo also provides a turbo stream tag helper
   <div class="{% dom_id article %}">
     {{ article.name }}
   </div>
-{% end_turbostream %}
+{% end_turbo_stream %}
 
 <!--
   <turbo-stream action="append" target="articles">
