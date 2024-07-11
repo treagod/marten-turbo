@@ -20,7 +20,7 @@ module MartenTurbo
         context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
         status : ::HTTP::Status | Int32 = 200
       )
-        render(turbo_stream_name.not_nil!, context: context, status: status, content_type: "text/vnd.turbo-stream.html")
+        render(turbo_stream_name.not_nil!, context: context, status: status, content_type: TURBO_CONTENT_TYPE)
       end
 
       def turbo_stream_name : String | Nil
