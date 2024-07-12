@@ -1,3 +1,4 @@
+require "./turbo_stream"
 require "./ext/**"
 require "./handlers/**"
 require "./template/**"
