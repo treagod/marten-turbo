@@ -1,4 +1,4 @@
-require "../../../spec_helper"
+require "../../spec_helper"
 
 describe MartenTurbo::Template::Tag::TurboStream do
   describe "::new" do
