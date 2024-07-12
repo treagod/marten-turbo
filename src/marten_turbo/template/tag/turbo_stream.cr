@@ -91,7 +91,7 @@ module MartenTurbo
             content = template.render(context)
           end
 
-          render_turbo_stream_tag(action, create_dom_id(@target_id.resolve(context)), content)
+          MartenTurbo::TurboStream.action(action, create_dom_id(@target_id.resolve(context)), content).to_s
         end
       end
     end
