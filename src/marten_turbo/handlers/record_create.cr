@@ -34,7 +34,7 @@ module MartenTurbo
         self.record = model.new(schema.validated_data)
         self.record.try(&.save!)
 
-        if request.turbo? && turbo_stream_name
+        if request.turbo? && turbo_streamable?
           context[self.class.record_context_name] = record
           render_turbo_stream context
         else

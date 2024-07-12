@@ -91,6 +91,32 @@ describe MartenTurbo::Handlers::RecordCreate do
       response.content.strip.should contain "</turbo-stream>"
     end
 
+    it (
+      "renders a turbo stream append action containing the newly created record if" \
+      "a turbo request is handled and a custom turbo render is defined"
+    ) do
+      request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/vnd.turbo-stream.html",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::RecordCreateSpec::TestWithCustomRenderMethod.new(request)
+
+      response = handler.post
+
+      response.should_not be_a Marten::HTTP::Response::Found
+      response.content.strip.should contain "<turbo-stream action=\"append\" target=\"messages\">"
+      response.content.strip.should contain "<div>New Message</div>"
+      response.content.strip.should contain "</turbo-stream>"
+    end
+
     it "renders a Turbo Stream append action containing no record when a wrong template variable is given" do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
@@ -138,5 +164,16 @@ module MartenTurbo::Handlers::RecordCreateSpec
     schema TagCreateSchema
     success_route_name "dummy"
     template_name "tags/create.html"
+  end
+
+  class TestWithCustomRenderMethod < MartenTurbo::Handlers::RecordCreate
+    model Tag
+    schema TagCreateSchema
+    success_route_name "dummy"
+    template_name "tags/create.html"
+
+    def turbo_stream
+      MartenTurbo::TurboStream.append("messages", "<div>New Message</div>")
+    end
   end
 end
