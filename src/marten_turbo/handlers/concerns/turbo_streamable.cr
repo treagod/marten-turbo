@@ -25,7 +25,6 @@ module MartenTurbo
         else
           render(turbo_stream_name.not_nil!, context: context, status: status, content_type: TURBO_CONTENT_TYPE)
         end
-        # stream = turbo_stream || turbo_stream_name.not_nil!
       end
 
       def turbo_stream
