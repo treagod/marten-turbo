@@ -118,13 +118,16 @@ class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
 end
 ```
 
-__Record Deletion__: To delete a record, use
+__Record Deletion__: It's also possible to define a `turbo_stream` method
 
 ```crystal
 class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
   model Article
   template_name "articles/delete.html"
-  turbo_stream_name "articles/delete.turbo_stream.html"
   success_route_name "articles"
+
+  def turbo_stream
+    MartenTurbo::TurboStream.remove("article_1")
+  end
 end
 ```
