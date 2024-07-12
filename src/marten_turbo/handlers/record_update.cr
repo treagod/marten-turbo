@@ -26,7 +26,7 @@ module MartenTurbo
       def process_valid_schema
         record.update!(schema.validated_data.select(model.fields.map(&.id)))
 
-        if request.turbo? && turbo_stream_name
+        if request.turbo? && turbo_streamable?
           render_turbo_stream context
         else
           Marten::HTTP::Response::Found.new success_url
