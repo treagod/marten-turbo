@@ -1,5 +1,7 @@
 module MartenTurbo
   class TurboStream
+    include Identifiable
+
     ACTIONS = %w[append prepend replace update remove before after]
 
     def initialize
@@ -21,7 +23,24 @@ module MartenTurbo
     # stream = MartenTurbo::TurboStream.new
     # stream.action("append", "messages", "<div>New Message</div>")
     # ```
-    def action(action, target_id, content)
+    def action(action, target_id : String, content)
+      @streams << <<-TURBO_STREAM_TAG
+        <turbo-stream action="#{action}" target="#{target_id}">
+          #{render_template_tag(content)}
+        </turbo-stream>
+      TURBO_STREAM_TAG
+
+      self
+    end
+
+    # Creates a new TurboStream instance and adds a single action.
+    #
+    # ```
+    # stream = MartenTurbo::TurboStream.new
+    # stream.replace("append", Message.get(pk: 1), "<div>Updated Message</div>")
+    # ```
+    def action(action, target : Marten::Model, content)
+      target_id = create_dom_id(target)
       @streams << <<-TURBO_STREAM_TAG
         <turbo-stream action="#{action}" target="#{target_id}">
           #{render_template_tag(content)}
@@ -33,7 +52,7 @@ module MartenTurbo
 
     {% for action in ACTIONS %}
       # Adds a turbo stream {{ action.id }} action to the streams array.
-      def {{ action.id }}(target : String, content : String? = nil)
+      def {{ action.id }}(target, content : String? = nil)
         action("{{ action.id }}", target, content)
 
         self
@@ -41,7 +60,7 @@ module MartenTurbo
 
       # Creates a a turbo stream instance with a {{ action.id }} action
       # already in its array.
-      def self.{{ action.id }}(target : String, content : String? = nil)
+      def self.{{ action.id }}(target, content : String? = nil)
         self.new.action("{{ action.id }}", target, content)
       end
     {% end %}

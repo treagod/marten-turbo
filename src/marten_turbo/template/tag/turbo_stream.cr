@@ -1,5 +1,3 @@
-require "./concerncs/dom_identifier"
-
 module MartenTurbo
   module Template
     module Tag

@@ -49,6 +49,16 @@ describe MartenTurbo::TurboStream do
       stream.to_s.should_not contain "<template>"
       stream.to_s.should contain "</turbo-stream>"
     end
+
+    it "adds a remove action to the streams using a record" do
+      tag = Tag.create!(name: "Tag 1")
+      stream = MartenTurbo::TurboStream.new
+      stream.remove(tag)
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag.pk!}\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
   end
 
   describe "Class methods" do
@@ -64,6 +74,15 @@ describe MartenTurbo::TurboStream do
       stream = MartenTurbo::TurboStream.remove("message_2")
 
       stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"message_2\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "::remove accepts a model returns a new TurboStream with the remove action" do
+      tag = Tag.create!(name: "Tag 1")
+      stream = MartenTurbo::TurboStream.remove(tag)
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag.pk!}\">"
       stream.to_s.should_not contain "<template>"
       stream.to_s.should contain "</turbo-stream>"
     end
