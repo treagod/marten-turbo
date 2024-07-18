@@ -127,7 +127,7 @@ class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
   success_route_name "articles"
 
   def turbo_stream
-    MartenTurbo::TurboStream.remove("article_1")
+    MartenTurbo::TurboStream.remove(record)
   end
 end
 ```
