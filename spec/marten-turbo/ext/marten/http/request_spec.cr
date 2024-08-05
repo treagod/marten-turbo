@@ -43,5 +43,15 @@ describe Marten::HTTP::Request do
 
       request.turbo_native_app?.should be_true
     end
+
+    it "correctly returns false if the request headers do not contain a user agent" do
+      request = Marten::HTTP::Request.new(
+        method: "GET",
+        resource: "/test/xyz",
+        headers: HTTP::Headers{"Accept" => "text/html"},
+      )
+
+      request.turbo_native_app?.should be_false
+    end
   end
 end

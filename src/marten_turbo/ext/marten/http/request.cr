@@ -5,6 +5,7 @@ class Marten::HTTP::Request
 
   def turbo_native_app?
     user_agent = @request.headers["User-Agent"]?
-    user_agent.includes?("Turbo Native") if user_agent
+
+    user_agent ? user_agent.includes?("Turbo Native") : false
   end
 end
