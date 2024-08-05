@@ -131,3 +131,17 @@ class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
   end
 end
 ```
+
+## Turbo Native
+
+Marten Turbo lets you check if a request is from a Turbo Native Application. To check, just check the `request.turbo_native_app?` variable.
+
+A context producer also adds the `turbo_native?` variable to your templates to adjust your HTML. For the context producer you have to insert `MartenTurbo::Template::ContextProducer::TurboNative` <a href="https://martenframework.com/docs/templates/introduction#using-context-producers" target="_blank" rel="noopener noreferrer">into your context producer array</a>.
+
+You could add a custom class to your body if a turbo native app hits your application:
+
+```html
+<body {% if turbo_native? %}class="turbo-native"{% endif %}>
+  …
+</body>
+```
