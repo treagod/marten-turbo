@@ -3,7 +3,7 @@ module MartenTurbo
     module ContextProducer
       class TurboNative < Marten::Template::ContextProducer
         def produce(request : Marten::HTTP::Request? = nil)
-          {"turbo_native?" => request.turbo_native_app?}
+          {"turbo_native?" => request.turbo_native_app?} if request
         end
       end
     end
