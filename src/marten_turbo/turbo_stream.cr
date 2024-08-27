@@ -8,6 +8,11 @@ module MartenTurbo
       @streams = [] of String
     end
 
+    def initialize
+      @streams = [] of String
+      yield self
+    end
+
     # Creates a new TurboStream instance and adds a single action.
     #
     # ```

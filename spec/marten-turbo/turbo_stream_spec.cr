@@ -6,6 +6,16 @@ describe MartenTurbo::TurboStream do
       stream = MartenTurbo::TurboStream.new
       stream.to_s.should eq ""
     end
+
+    it "accepts a block to initialize the stream" do
+      stream = MartenTurbo::TurboStream.new do |stream|
+        stream.append("messages", "<div>Message 1</div>")
+      end
+
+      stream.to_s.should contain "<turbo-stream action=\"append\" target=\"messages\">"
+      stream.to_s.should contain "<div>Message 1</div>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
   end
 
   describe "#append" do
