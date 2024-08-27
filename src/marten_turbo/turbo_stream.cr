@@ -40,7 +40,7 @@ module MartenTurbo
     # stream.replace("append", Message.get(pk: 1), "<div>Updated Message</div>")
     # ```
     def action(action, target : Marten::Model, content)
-      target_id = create_dom_id(target)
+      target_id = dom_id(target)
       @streams << <<-TURBO_STREAM_TAG
         <turbo-stream action="#{action}" target="#{target_id}">
           #{render_template_tag(content)}

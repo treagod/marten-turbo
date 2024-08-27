@@ -1,16 +1,22 @@
 module MartenTurbo
   module Identifiable
-    def create_dom_id(value : Marten::Template::Value, prefix : Marten::Template::Value? = nil)
-      if value.raw.is_a? Marten::Model
-        create_dom_id(value.raw.as(Marten::Model), prefix)
-      else
-        dom_id = value.to_s
-        prefix ? "#{prefix}_#{dom_id}" : dom_id
-      end
+    @[Deprecated("Use `#dom_id` instead")]
+    def create_dom_id(value, prefix : String | Symbol | Nil = nil)
+      dom_id(value, prefix)
     end
 
-    def create_dom_id(model : Marten::Model, prefix : Marten::Template::Value? = nil)
-      generate_id_for_model(model, prefix)
+    def dom_id(value, prefix : String | Symbol | Nil = nil)
+      dom_id = value.to_s
+      prefix ? "#{prefix}_#{dom_id}" : dom_id
+    end
+
+    @[Deprecated("Use `#dom_id` instead")]
+    def create_dom_id(value : Marten::Model, prefix : String | Symbol | Nil = nil)
+      dom_id(value, prefix)
+    end
+
+    def dom_id(value : Marten::Model, prefix : String | Symbol | Nil = nil)
+      generate_id_for_model(value, prefix)
     end
 
     private def formatted_prefix(prefix)

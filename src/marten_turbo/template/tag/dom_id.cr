@@ -22,7 +22,7 @@ module MartenTurbo
         end
 
         def render(context : Marten::Template::Context) : String
-          create_dom_id @instance_name.resolve(context), @prefix.try(&.resolve(context))
+          dom_id @instance_name.resolve(context).raw, @prefix.try(&.resolve(context).try(&.to_s))
         end
       end
     end

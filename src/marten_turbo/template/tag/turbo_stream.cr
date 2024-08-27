@@ -89,7 +89,9 @@ module MartenTurbo
             content = template.render(context)
           end
 
-          MartenTurbo::TurboStream.action(action, create_dom_id(@target_id.resolve(context)), content).to_s
+          target = @target_id.resolve(context)
+
+          MartenTurbo::TurboStream.action(action, dom_id(target.raw), content).to_s
         end
       end
     end
