@@ -8,7 +8,7 @@ module MartenTurbo
       @streams = [] of String
     end
 
-    def initialize
+    def initialize(&)
       @streams = [] of String
       yield self
     end

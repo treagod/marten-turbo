@@ -8,8 +8,8 @@ describe MartenTurbo::TurboStream do
     end
 
     it "accepts a block to initialize the stream" do
-      stream = MartenTurbo::TurboStream.new do |stream|
-        stream.append("messages", "<div>Message 1</div>")
+      stream = MartenTurbo::TurboStream.new do |turbo_stream|
+        turbo_stream.append("messages", "<div>Message 1</div>")
       end
 
       stream.to_s.should contain "<turbo-stream action=\"append\" target=\"messages\">"
