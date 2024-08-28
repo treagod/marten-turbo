@@ -28,7 +28,8 @@ module MartenTurbo
     # stream = MartenTurbo::TurboStream.new
     # stream.action("append", "messages", "<div>New Message</div>")
     # ```
-    def action(action, target_id : String, content)
+    def action(action, target : String | Marten::Model, content)
+      target_id = target.is_a?(String) ? target : dom_id(target.as(Marten::Model))
       @streams << <<-TURBO_STREAM_TAG
         <turbo-stream action="#{action}" target="#{target_id}">
           #{render_template_tag(content)}
@@ -42,17 +43,10 @@ module MartenTurbo
     #
     # ```
     # stream = MartenTurbo::TurboStream.new
-    # stream.replace("append", Message.get(pk: 1), "<div>Updated Message</div>")
+    # stream.replace("append", Message.get!(pk: 1), "<div>Updated Message</div>")
     # ```
     def action(action, target : Marten::Model, content)
-      target_id = dom_id(target)
-      @streams << <<-TURBO_STREAM_TAG
-        <turbo-stream action="#{action}" target="#{target_id}">
-          #{render_template_tag(content)}
-        </turbo-stream>
-      TURBO_STREAM_TAG
-
-      self
+      action(action, dom_id(target), content)
     end
 
     {% for action in ACTIONS %}
