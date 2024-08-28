@@ -1,5 +1,5 @@
 <h1>
-  <img src="./logo.svg" height="32" width="32" alt="Marten Turbo Logo">
+  <img src="https://raw.githubusercontent.com/treagod/marten-turbo/e317fa4c759ebb61a335d22872a39caf39cfe5cc/docs/_media/logo.svg" height="32" width="32" alt="Marten Turbo Logo">
   <span>Marten Turbo</span>
 </h1>
 
