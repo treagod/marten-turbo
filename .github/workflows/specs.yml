@@ -15,9 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         crystal: [
-          '1.11.2',
           '1.12.2',
-          '1.13.2',
+          '1.13.3',
+          ''1.14.0','
           'nightly',
         ]
     container:
