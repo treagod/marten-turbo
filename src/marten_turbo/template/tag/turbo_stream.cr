@@ -41,18 +41,18 @@ module MartenTurbo
           return "" unless content
 
           <<-TEMPLATE_TAG
-            <template>
-              #{content}
-            </template>
-          TEMPLATE_TAG
+              <template>
+                #{content}
+              </template>
+            TEMPLATE_TAG
         end
 
         private def render_turbo_stream_tag(action, target_id, content)
           <<-TURBO_STREAM_TAG
-            <turbo-stream action="#{action}" target="#{target_id}">
-              #{render_template_tag(content)}
-            </turbo-stream>
-          TURBO_STREAM_TAG
+              <turbo-stream action="#{action}" target="#{target_id}">
+                #{render_template_tag(content)}
+              </turbo-stream>
+            TURBO_STREAM_TAG
         end
 
         def render(context : Marten::Template::Context) : String

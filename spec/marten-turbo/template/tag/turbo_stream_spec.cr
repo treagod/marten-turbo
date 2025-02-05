@@ -27,8 +27,8 @@ describe MartenTurbo::Template::Tag::TurboStream do
     it "raises if turbo_stream block is not closed when 'do' is present at the end" do
       parser = Marten::Template::Parser.new(
         <<-TEMPLATE
-        <p>some content</p>
-        TEMPLATE
+          <p>some content</p>
+          TEMPLATE
       )
 
       expect_raises(
@@ -115,9 +115,9 @@ describe MartenTurbo::Template::Tag::TurboStream do
     it "properly renders a turbo_stream block if 'do' is present as last argument" do
       parser = Marten::Template::Parser.new(
         <<-TEMPLATE
-        <p>some content</p>
-        {% end_turbo_stream %}
-        TEMPLATE
+          <p>some content</p>
+          {% end_turbo_stream %}
+          TEMPLATE
       )
       tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append 'tags' do")
 

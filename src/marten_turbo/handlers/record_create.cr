@@ -31,8 +31,8 @@ module MartenTurbo
       end
 
       def process_valid_schema
-        self.record = model.new(schema.validated_data)
-        self.record.try(&.save!)
+        record = model.new(schema.validated_data)
+        record.try(&.save!)
 
         if request.turbo? && turbo_streamable?
           context[self.class.record_context_name] = record

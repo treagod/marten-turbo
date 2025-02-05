@@ -19,7 +19,7 @@ module MartenTurbo
     # stream = MartenTurbo::TurboStream.action("append", "messages", "<div>New Message</div>")
     # ```
     def self.action(action, target_id, content)
-      self.new.action(action, target_id, content)
+      new.action(action, target_id, content)
     end
 
     # Creates a new TurboStream instance and adds a single action.
@@ -31,10 +31,10 @@ module MartenTurbo
     def action(action, target : String | Marten::Model, content)
       target_id = target.is_a?(String) ? target : dom_id(target.as(Marten::Model))
       @streams << <<-TURBO_STREAM_TAG
-        <turbo-stream action="#{action}" target="#{target_id}">
-          #{render_template_tag(content)}
-        </turbo-stream>
-      TURBO_STREAM_TAG
+          <turbo-stream action="#{action}" target="#{target_id}">
+            #{render_template_tag(content)}
+          </turbo-stream>
+        TURBO_STREAM_TAG
 
       self
     end
@@ -79,10 +79,10 @@ module MartenTurbo
       return "" unless content
 
       <<-TEMPLATE_TAG
-        <template>
-          #{content}
-        </template>
-      TEMPLATE_TAG
+          <template>
+            #{content}
+          </template>
+        TEMPLATE_TAG
     end
   end
 end

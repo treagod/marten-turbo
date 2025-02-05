@@ -18,7 +18,7 @@ module MartenTurbo
 
       def render_turbo_stream(
         context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
-        status : ::HTTP::Status | Int32 = 200
+        status : ::HTTP::Status | Int32 = 200,
       )
         if stream = turbo_stream.try(&.to_s)
           respond(stream, status: status, content_type: TURBO_CONTENT_TYPE)
