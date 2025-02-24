@@ -17,7 +17,7 @@ describe MartenTurbo::Handlers::TurboFrame do
       )
       handler = MartenTurbo::Handlers::TurboFrameSpec::TestHandler.new(request)
 
-      handler.turbo_frame_request?.should eq false
+      handler.turbo_frame_request?.should be_false
     end
 
     it "returns true when the 'Turbo-Frame' header is present" do
@@ -36,7 +36,7 @@ describe MartenTurbo::Handlers::TurboFrame do
       )
       handler = MartenTurbo::Handlers::TurboFrameSpec::TestHandler.new(request)
 
-      handler.turbo_frame_request?.should eq true
+      handler.turbo_frame_request?.should be_true
     end
   end
 
@@ -56,7 +56,7 @@ describe MartenTurbo::Handlers::TurboFrame do
       )
       handler = MartenTurbo::Handlers::TurboFrameSpec::TestHandler.new(request)
 
-      handler.turbo_frame_request_id.should eq nil
+      handler.turbo_frame_request_id.should be_nil
     end
 
     it "returns the value of the 'Turbo-Frame' header when it is present" do
