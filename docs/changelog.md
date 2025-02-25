@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - `MartenTurbo::TurboStream.new` now accepts a block which can be used to create multiple stream tags.
+- `turbo_frame` tag
 
 ### Changed
 - `dom_id` is now more general and accepts `Marten::Model` or anything that responds to `#to_s`.
