@@ -2,6 +2,31 @@
 
 ## Template Helpers
 
+### `turbo_frame`
+
+The `turbo_frame` helper renders a Turbo Frame. It needs an identifier and optionally you can specify keywords:
+
+```html
+{% turbo_frame 'tasks' src="/tasks" loading="lazy" %}
+  <p>Loading tasks…</p>
+{% end_turbo_frame %}
+```
+
+You can also pass a Marten model to `turbo_frame`
+
+```html
+{% turbo_frame article %}
+  <article>
+    <h2>{{ article.title }}</h2>
+    …
+  </article>
+{% end_turbo_frame %}
+```
+
+Which will render `article_<aritcle_id>` as tag id.
+
+### `dom_id`
+
 Marten Turbo provides a `dom_id` template helper, which simplifies generating unique DOM IDs for your elements. This is especially useful when working with Turbo Streams.
 
 ### Example Usage
