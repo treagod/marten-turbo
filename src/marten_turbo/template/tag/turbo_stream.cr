@@ -37,24 +37,6 @@ module MartenTurbo
           end
         end
 
-        private def render_template_tag(content)
-          return "" unless content
-
-          <<-TEMPLATE_TAG
-              <template>
-                #{content}
-              </template>
-            TEMPLATE_TAG
-        end
-
-        private def render_turbo_stream_tag(action, target_id, content)
-          <<-TURBO_STREAM_TAG
-              <turbo-stream action="#{action}" target="#{target_id}">
-                #{render_template_tag(content)}
-              </turbo-stream>
-            TURBO_STREAM_TAG
-        end
-
         def render(context : Marten::Template::Context) : String
           action = @action_filter.resolve(context).to_s
           content = if turbo_stream_nodes = @turbo_stream_nodes

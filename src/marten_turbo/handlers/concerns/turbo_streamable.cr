@@ -27,6 +27,12 @@ module MartenTurbo
         end
       end
 
+      def render(
+        turbo_stream : TurboStream,
+        context,
+      )
+      end
+
       def turbo_stream
       end
 

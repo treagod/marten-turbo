@@ -11,6 +11,7 @@ module MartenTurbo
     def setup
       Marten::Template::Tag.register "dom_id", Template::Tag::DomId
       Marten::Template::Tag.register "turbo_stream", Template::Tag::TurboStream
+      Marten::Template::Tag.register "turbo_frame", Template::Tag::TurboFrame
     end
   end
 end

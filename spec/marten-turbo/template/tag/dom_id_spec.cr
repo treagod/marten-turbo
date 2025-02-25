@@ -13,7 +13,7 @@ describe MartenTurbo::Template::Tag::DomId do
       end
     end
 
-    it "raises if the dom_id block does not contain more then two arguments" do
+    it "raises if the dom_id block does contain more then two arguments" do
       parser = Marten::Template::Parser.new("{% dom_id 1 2 3 %}")
 
       expect_raises(
