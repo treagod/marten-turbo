@@ -41,8 +41,6 @@ module MartenTurbo
           action = @action_filter.resolve(context).to_s
           content = if turbo_stream_nodes = @turbo_stream_nodes
                       turbo_stream_nodes.render(context)
-                    else
-                      nil
                     end
 
           template = nil
@@ -67,10 +65,7 @@ module MartenTurbo
             end
           end
 
-          if template
-            content = template.render(context)
-          end
-
+          content = template.render(context) if template
           target = @target_id.resolve(context)
 
           MartenTurbo::TurboStream.action(action, dom_id(target.raw), content).to_s
