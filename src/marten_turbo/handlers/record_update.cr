@@ -1,4 +1,4 @@
-require "./concerns/turbo_streamable"
+require "./concerns/rendering"
 
 module MartenTurbo
   module Handlers
@@ -21,7 +21,7 @@ module MartenTurbo
     # end
     # ```
     class RecordUpdate < Marten::Handlers::RecordUpdate
-      include TurboStreamable
+      include Concerns::Rendering
 
       def process_valid_schema
         record.update!(schema.validated_data.select(model.fields.map(&.id)))

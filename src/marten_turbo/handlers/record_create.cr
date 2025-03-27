@@ -1,4 +1,4 @@
-require "./concerns/turbo_streamable"
+require "./concerns/rendering"
 
 module MartenTurbo
   module Handlers
@@ -22,7 +22,7 @@ module MartenTurbo
     # end
     # ```
     class RecordCreate < Marten::Handlers::RecordCreate
-      include TurboStreamable
+      include Concerns::Rendering
 
       class_getter record_context_name : String = "record"
 

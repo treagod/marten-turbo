@@ -1,4 +1,4 @@
-require "./concerns/turbo_streamable"
+require "./concerns/rendering"
 
 module MartenTurbo
   module Handlers
@@ -20,7 +20,7 @@ module MartenTurbo
     # end
     # ```
     class RecordDelete < Marten::Handlers::RecordDelete
-      include TurboStreamable
+      include Concerns::Rendering
 
       def post
         perform_deletion
