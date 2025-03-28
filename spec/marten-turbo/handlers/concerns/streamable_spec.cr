@@ -45,6 +45,27 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       response.content.strip.should contain %(<turbo-stream action="remove" target="tag_1">)
     end
 
+    it "accepts a block to create the turbo stream" do
+      request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/vnd.turbo-stream.html",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboStreamYieldHandler.new(request)
+
+      response = handler.post
+
+      response.content_type.should eq "text/vnd.turbo-stream.html"
+      response.content.strip.should contain %(<turbo-stream action="remove" target="tag_1">)
+    end
+
     it "can set a custom status" do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
@@ -91,6 +112,16 @@ module MartenTurbo::Handlers::Concerns::StreamableSpec
 
     def post
       turbo_stream(TurboStream.remove("tag_1"), 418)
+    end
+  end
+
+  class TurboStreamYieldHandler < Marten::Handler
+    include MartenTurbo::Handlers::Concerns::Streamable
+
+    def post
+      turbo_stream do
+        remove("tag_1")
+      end
     end
   end
 end

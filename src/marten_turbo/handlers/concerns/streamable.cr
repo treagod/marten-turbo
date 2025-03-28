@@ -16,6 +16,14 @@ module MartenTurbo
         )
           respond(stream.to_s, TURBO_CONTENT_TYPE, status)
         end
+
+        def turbo_stream(status : ::HTTP::Status | Int32 = 200, &)
+          stream = TurboStream.new
+
+          with stream yield
+
+          turbo_stream(stream, status)
+        end
       end
     end
   end
