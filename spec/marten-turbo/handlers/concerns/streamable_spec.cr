@@ -4,9 +4,7 @@ require "../spec_helper"
 describe MartenTurbo::Handlers::Concerns::Streamable do
   describe "#turbo_stream" do
     it "can render a template" do
-        tag = Tag.create!(name: "Tag 1")
-
-        request = Marten::HTTP::Request.new(
+      request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
           resource: "",
@@ -27,9 +25,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
     end
 
     it "can render a MartenTurbo::TurboStream" do
-        tag = Tag.create!(name: "Tag 1")
-
-        request = Marten::HTTP::Request.new(
+      request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
           resource: "",
@@ -50,9 +46,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
     end
 
     it "can set a custom status" do
-        tag = Tag.create!(name: "Tag 1")
-
-        request = Marten::HTTP::Request.new(
+      request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
           resource: "",
@@ -80,7 +74,7 @@ module MartenTurbo::Handlers::Concerns::StreamableSpec
     include MartenTurbo::Handlers::Concerns::Streamable
 
     def post
-        turbo_stream("tags/create.turbo_stream.html")
+      turbo_stream("tags/create.turbo_stream.html")
     end
   end
 
@@ -88,7 +82,7 @@ module MartenTurbo::Handlers::Concerns::StreamableSpec
     include MartenTurbo::Handlers::Concerns::Streamable
 
     def post
-        turbo_stream(TurboStream.remove("tag_1"))
+      turbo_stream(TurboStream.remove("tag_1"))
     end
   end
 
@@ -96,7 +90,7 @@ module MartenTurbo::Handlers::Concerns::StreamableSpec
     include MartenTurbo::Handlers::Concerns::Streamable
 
     def post
-        turbo_stream(TurboStream.remove("tag_1"), 418)
+      turbo_stream(TurboStream.remove("tag_1"), 418)
     end
   end
 end
