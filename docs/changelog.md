@@ -2,13 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/).
-
 ## [Unreleased]
 
 ### Added
 - `MartenTurbo::TurboStream.new` now accepts a block which can be used to create multiple stream tags.
 - `turbo_frame` tag
+- `turbo_stream` response helper
 
 ### Changed
 - `dom_id` is now more general and accepts `Marten::Model` or anything that responds to `#to_s`.
@@ -21,6 +20,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - `TurboStream` can now correctly create target IDs from a `Marten::Model`.
+
+### Breaking Changes
+- `MartenTurbo::Handlers::TurboStreamable` was renamed to `MartenTurbo::Handlers::Concerncs::Rendering`
 
 ## Marten Turbo 0.2.0
 **2024-06-13**
