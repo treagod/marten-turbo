@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - `MartenTurbo::TurboStream.new` now accepts a block which can be used to create multiple stream tags.
 - `turbo_frame` tag
 - `turbo_stream` response helper
+- `MartenTurbo::Template::ContextProducer::TurboFrame` context producer
 
 ### Changed
 - `dom_id` is now more general and accepts `Marten::Model` or anything that responds to `#to_s`.
