@@ -25,6 +25,14 @@ You can also pass a Marten model to `turbo_frame`
 
 Which will render `article_<aritcle_id>` as tag id.
 
+You can further customize responses triggered by a turbo frame when using the [context producer](https://martenframework.com/docs/templates/introduction#using-context-producers) `MartenTurbo::Template::ContextProducer::TurboFrame`. This provides you a handy `turbo_frame?` variable:
+
+```html
+{% if turbo_frame? %}
+  <div>Only shown if request came from a turbo frame</div>
+{% end_if %}
+```
+
 ### `dom_id`
 
 Marten Turbo provides a `dom_id` template helper, which simplifies generating unique DOM IDs for your elements. This is especially useful when working with Turbo Streams.
@@ -156,7 +164,7 @@ if request.turbo_native_app?
 end
 ```
 
-You can also adjust your HTML templates based on whether the request is from a Turbo Native app:
+With the [context producer](https://martenframework.com/docs/templates/introduction#using-context-producers) `MartenTurbo::Template::ContextProducer::TurboNative` the `turbo_native?` tag can be used within your template:
 
 ```html
 <body {% if turbo_native? %}class="turbo-native"{% endif %}>
