@@ -53,5 +53,25 @@ describe Marten::HTTP::Request do
 
       request.turbo_native_app?.should be_false
     end
+
+    it "correctly returns true if the request contains a turbo-frame header" do
+      request = Marten::HTTP::Request.new(
+        method: "GET",
+        resource: "/test/xyz",
+        headers: HTTP::Headers{"Accept" => "text/vnd.turbo-stream.html", "turbo-frame" => "form"},
+      )
+
+      request.turbo_frame?.should be_true
+    end
+
+    it "correctly returns false if the request doesn't contains a turbo-frame header" do
+      request = Marten::HTTP::Request.new(
+        method: "GET",
+        resource: "/test/xyz",
+        headers: HTTP::Headers{"Accept" => "text/vnd.turbo-stream.html"},
+      )
+
+      request.turbo_frame?.should be_false
+    end
   end
 end
