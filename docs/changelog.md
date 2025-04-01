@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### Deprecated
 - Renamed `create_dom_id` to `dom_id` to better fit the template tag naming convention.
+- Renamed `MartenTurbo::Handlers::TurboStreamable` to `MartenTurbo::Handlers::Concerns::Rendering`.
 
 ## Marten Turbo 0.2.1
 **2024-06-17**
