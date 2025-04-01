@@ -2,7 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## Marten Turbo 0.3.0
+**2025-04-01**
 
 ### Added
 - `MartenTurbo::TurboStream.new` now accepts a block which can be used to create multiple stream tags.
