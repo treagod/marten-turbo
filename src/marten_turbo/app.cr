@@ -1,4 +1,4 @@
-require "./concerncs/**"
+require "./concerns/**"
 require "./turbo_stream"
 require "./ext/**"
 require "./handlers/**"
