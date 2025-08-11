@@ -4,10 +4,10 @@ version: 0.3.0
 dependencies:
   marten:
     github: martenframework/marten
-  sqlite3:
-    github: crystal-lang/crystal-sqlite3
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     branch: master
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
