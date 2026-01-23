@@ -88,9 +88,100 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       response.status.should eq 418
     end
   end
+
+  describe "request helpers" do
+    it "knows when the current request expects a turbo response" do
+      turbo_request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/vnd.turbo-stream.html",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboHelperHandler.new(turbo_request)
+      handler.turbo_request_flag.should be_true
+
+      regular_request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/html",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboHelperHandler.new(regular_request)
+      handler.turbo_request_flag.should be_false
+    end
+
+    it "knows when the current request is from a turbo native application" do
+      native_request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/html",
+            "User-Agent"   => "My Turbo Native App",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboHelperHandler.new(native_request)
+      handler.turbo_native_request_flag.should be_true
+    end
+
+    it "knows when the current request targets a turbo frame" do
+      frame_request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/html",
+            "Turbo-Frame"  => "modal",
+          },
+          body: "name=new-turbo-tag"
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboHelperHandler.new(frame_request)
+      handler.turbo_frame_request_flag.should be_true
+      handler.turbo_frame_request_identifier.should eq "modal"
+    end
+  end
 end
 
 module MartenTurbo::Handlers::Concerns::StreamableSpec
+  class TurboHelperHandler < Marten::Handler
+    include MartenTurbo::Handlers::Concerns::Streamable
+
+    def turbo_request_flag
+      turbo_request?
+    end
+
+    def turbo_native_request_flag
+      turbo_native_request?
+    end
+
+    def turbo_frame_request_flag
+      turbo_frame_request?
+    end
+
+    def turbo_frame_request_identifier
+      turbo_frame_request_id
+    end
+  end
+
   class TurboTemplateHandler < Marten::Handler
     include MartenTurbo::Handlers::Concerns::Streamable
 
