@@ -10,6 +10,8 @@ module MartenTurbo
         macro included
           # Returns the configured turbo stream template name.
           class_getter turbo_stream_name : String?
+          # Returns the configured turbo template name used when schema validation fails.
+          class_getter turbo_invalid_stream_name : String?
 
           extend MartenTurbo::Handlers::Concerns::Rendering::ClassMethods
         end
@@ -18,6 +20,11 @@ module MartenTurbo
           # Allows to configure the turbo stream template that should be rendered by the handler.
           def turbo_stream_name(turbo_stream_name : String?)
             @@turbo_stream_name = turbo_stream_name
+          end
+
+          # Allows to configure the turbo stream template rendered when schema validation fails.
+          def turbo_invalid_stream_name(turbo_invalid_stream_name : String?)
+            @@turbo_invalid_stream_name = turbo_invalid_stream_name
           end
         end
 
@@ -32,6 +39,17 @@ module MartenTurbo
           end
         end
 
+        def render_invalid_turbo_stream(
+          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          status : ::HTTP::Status | Int32 = 422,
+        )
+          if stream_obj = turbo_invalid_stream
+            turbo_stream(stream_obj, status)
+          else
+            turbo_stream(turbo_invalid_stream_name.not_nil!, context: context, status: status)
+          end
+        end
+
         def render(
           turbo_stream : TurboStream,
           context,
@@ -42,12 +60,24 @@ module MartenTurbo
           nil
         end
 
+        def turbo_invalid_stream : MartenTurbo::TurboStream | Nil
+          nil
+        end
+
         def turbo_streamable?
           !!(turbo_stream || turbo_stream_name)
         end
 
+        def turbo_invalid_streamable?
+          !!(turbo_invalid_stream || turbo_invalid_stream_name)
+        end
+
         def turbo_stream_name : String | Nil
           self.class.turbo_stream_name
+        end
+
+        def turbo_invalid_stream_name : String | Nil
+          self.class.turbo_invalid_stream_name
         end
       end
     end

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Marten Turbo 0.3.1
+**Unreleased**
+
+### Added
+- `turbo_invalid_stream_name` and `turbo_invalid_stream` support on Turbo handlers to render validation errors over Turbo Streams.
+- Dot-prefixed string and symbol targets now automatically emit selector-based Turbo Stream actions, for example `TurboStream.remove(".event_123")` or `TurboStream.remove(:".event_123")`.
+
+### Changed
+- `MartenTurbo::Handlers::Concerns::Streamable` now provides request helper methods alongside private `turbo_stream` responders.
+- `RecordCreate`, `RecordUpdate` and `RecordDelete` now delegate record persistence to their Marten counterparts instead of reimplementing it. Custom `#prepare_record_attributes` and `#save_record` implementations are now respected, and `RecordCreate#record` correctly exposes the created record.
+- Marten 0.6.0 or later is now required.
+
 ## Marten Turbo 0.3.0
 **2025-04-01**
 

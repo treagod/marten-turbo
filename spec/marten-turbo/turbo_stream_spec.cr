@@ -48,6 +48,26 @@ describe MartenTurbo::TurboStream do
       stream.to_s.should contain "<div>Updated Message 1</div>"
       stream.to_s.should contain "</turbo-stream>"
     end
+
+    it "uses targets for dot-prefixed string targets" do
+      stream = MartenTurbo::TurboStream.new
+      stream.replace(".message", "<div>Updated Message</div>")
+
+      stream.to_s.should contain "<turbo-stream action=\"replace\" targets=\".message\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"replace\" target=\".message\">"
+      stream.to_s.should contain "<div>Updated Message</div>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "uses targets for dot-prefixed symbol targets" do
+      stream = MartenTurbo::TurboStream.new
+      stream.replace(:".message", "<div>Updated Message</div>")
+
+      stream.to_s.should contain "<turbo-stream action=\"replace\" targets=\".message\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"replace\" target=\".message\">"
+      stream.to_s.should contain "<div>Updated Message</div>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
   end
 
   describe "#remove" do
@@ -66,6 +86,36 @@ describe MartenTurbo::TurboStream do
       stream.remove(tag)
 
       stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag.pk!}\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "uses targets for dot-prefixed string targets" do
+      stream = MartenTurbo::TurboStream.new
+      stream.remove(".message_2")
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" targets=\".message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" target=\".message_2\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "uses targets for dot-prefixed symbol targets" do
+      stream = MartenTurbo::TurboStream.new
+      stream.remove(:".message_2")
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" targets=\".message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" target=\".message_2\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "keeps target for non-dot symbol targets" do
+      stream = MartenTurbo::TurboStream.new
+      stream.remove(:message_2)
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" targets=\"message_2\">"
       stream.to_s.should_not contain "<template>"
       stream.to_s.should contain "</turbo-stream>"
     end
@@ -93,6 +143,33 @@ describe MartenTurbo::TurboStream do
       stream = MartenTurbo::TurboStream.remove(tag)
 
       stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag.pk!}\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "::remove uses targets for dot-prefixed string targets" do
+      stream = MartenTurbo::TurboStream.remove(".message_2")
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" targets=\".message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" target=\".message_2\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "::remove uses targets for dot-prefixed symbol targets" do
+      stream = MartenTurbo::TurboStream.remove(:".message_2")
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" targets=\".message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" target=\".message_2\">"
+      stream.to_s.should_not contain "<template>"
+      stream.to_s.should contain "</turbo-stream>"
+    end
+
+    it "::remove keeps target for non-dot symbol targets" do
+      stream = MartenTurbo::TurboStream.remove(:message_2)
+
+      stream.to_s.should contain "<turbo-stream action=\"remove\" target=\"message_2\">"
+      stream.to_s.should_not contain "<turbo-stream action=\"remove\" targets=\"message_2\">"
       stream.to_s.should_not contain "<template>"
       stream.to_s.should contain "</turbo-stream>"
     end

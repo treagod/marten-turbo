@@ -61,6 +61,29 @@ describe MartenTurbo::Template::Tag::TurboStream do
       tag.render(context).should contain "<turbo-stream action=\"remove\" target=\"tag_#{tag_model.pk!}\">"
     end
 
+    it "properly renders a turbo-stream tag using selector targeting for dot-prefixed string targets" do
+      parser = Marten::Template::Parser.new("")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(
+        parser,
+        "turbo_stream 'remove' '.event_1'"
+      )
+
+      content = tag.render(Marten::Template::Context.new)
+      content.should contain "<turbo-stream action=\"remove\" targets=\".event_1\">"
+      content.should_not contain "<turbo-stream action=\"remove\" target=\".event_1\">"
+    end
+
+    it "properly renders a turbo-stream tag using selector targeting for dot-prefixed symbol targets" do
+      parser = Marten::Template::Parser.new("")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'remove' selector")
+
+      context = Marten::Template::Context{"selector" => :".event_2"}
+
+      content = tag.render(context)
+      content.should contain "<turbo-stream action=\"remove\" targets=\".event_2\">"
+      content.should_not contain "<turbo-stream action=\"remove\" target=\".event_2\">"
+    end
+
     it "properly renders a turbo-stream tag with correct specified template" do
       tag_model = Tag.create!(name: "Marten Turbo")
 

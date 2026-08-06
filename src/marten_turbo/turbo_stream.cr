@@ -27,25 +27,16 @@ module MartenTurbo
     # stream = MartenTurbo::TurboStream.new
     # stream.action("append", "messages", "<div>New Message</div>")
     # ```
-    def action(action, target : String | Marten::Model, content)
-      target_id = target.is_a?(String) ? target : dom_id(target.as(Marten::Model))
-      @streams << <<-TURBO_STREAM_TAG
-          <turbo-stream action="#{action}" target="#{target_id}">
-            #{render_template_tag(content)}
-          </turbo-stream>
-        TURBO_STREAM_TAG
+    def action(action, target : String | Symbol | Marten::Model, content)
+      if target.is_a?(Marten::Model)
+        @streams << build_stream_tag(action, "target", dom_id(target), content)
+      else
+        target_value = target.to_s
+        attribute_name = selector_target?(target_value) ? "targets" : "target"
+        @streams << build_stream_tag(action, attribute_name, target_value, content)
+      end
 
       self
-    end
-
-    # Creates a new TurboStream instance and adds a single action.
-    #
-    # ```
-    # stream = MartenTurbo::TurboStream.new
-    # stream.replace("append", Message.get!(pk: 1), "<div>Updated Message</div>")
-    # ```
-    def action(action, target : Marten::Model, content)
-      action(action, dom_id(target), content)
     end
 
     {% for action in ACTIONS %}
@@ -82,6 +73,18 @@ module MartenTurbo
             #{content}
           </template>
         TEMPLATE_TAG
+    end
+
+    private def build_stream_tag(action, attribute_name : String, target_value : String, content)
+      <<-TURBO_STREAM_TAG
+          <turbo-stream action="#{action}" #{attribute_name}="#{target_value}">
+            #{render_template_tag(content)}
+          </turbo-stream>
+        TURBO_STREAM_TAG
+    end
+
+    private def selector_target?(target : String) : Bool
+      target.starts_with?('.')
     end
   end
 end

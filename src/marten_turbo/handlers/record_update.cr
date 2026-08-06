@@ -24,12 +24,18 @@ module MartenTurbo
       include Concerns::Rendering
 
       def process_valid_schema
-        record.update!(schema.validated_data.select(model.fields.map(&.id)))
+        return super unless request.turbo? && turbo_streamable?
 
-        if request.turbo? && turbo_streamable?
-          render_turbo_stream context
+        save_record
+
+        render_turbo_stream context
+      end
+
+      def process_invalid_schema
+        if turbo_request? && turbo_invalid_streamable?
+          render_invalid_turbo_stream context
         else
-          Marten::HTTP::Response::Found.new success_url
+          super
         end
       end
     end

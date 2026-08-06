@@ -83,6 +83,13 @@ Marten Turbo also provides a turbo stream tag helper
   <turbo-stream action="remove" target="article_1">
   </turbo-stream>
 -->
+
+<!-- dot-prefixed string targets automatically use CSS selector targeting -->
+{% turbo_stream 'remove' '.event_123' %}
+<!--
+  <turbo-stream action="remove" targets=".event_123">
+  </turbo-stream>
+-->
 ```
 
 
@@ -130,6 +137,13 @@ class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
     MartenTurbo::TurboStream.remove(record)
   end
 end
+```
+
+Dot-prefixed string or symbol targets automatically use CSS selector targeting:
+
+```crystal
+MartenTurbo::TurboStream.remove(".event_123")
+MartenTurbo::TurboStream.remove(:".event_123")
 ```
 
 ## Turbo Native

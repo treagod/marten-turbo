@@ -83,12 +83,22 @@ Marten Turbo also provides a turbo stream tag helper
   <turbo-stream action="remove" target="article_1">
   </turbo-stream>
 -->
+
+<!-- dot-prefixed string targets automatically use CSS selector targeting -->
+{% turbo_stream 'remove' '.event_123' %}
+<!--
+  <turbo-stream action="remove" targets=".event_123">
+  </turbo-stream>
+-->
 ```
 
 
 ## Handlers
 
-Marten Turbo provides an extension to the generic Marten handlers:
+Marten Turbo provides an extension to the generic Marten handlers. Record persistence is delegated to the corresponding
+Marten handler, so extension points such as `#prepare_record_attributes` and `#save_record`, the `#record` accessor and
+the regular handler callbacks all keep working as usual — Marten Turbo only swaps the success redirect for a Turbo Stream
+response when one is configured.
 
 __Record Creation__: To create a record, use
 
@@ -130,6 +140,13 @@ class ArticleDeleteHandler < MartenTurbo::Handlers::RecordDelete
     MartenTurbo::TurboStream.remove(record)
   end
 end
+```
+
+Dot-prefixed string or symbol targets automatically use CSS selector targeting:
+
+```crystal
+MartenTurbo::TurboStream.remove(".event_123")
+MartenTurbo::TurboStream.remove(:".event_123")
 ```
 
 ## Turbo Native

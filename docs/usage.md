@@ -102,9 +102,40 @@ This will generate:
 </turbo-stream>
 ```
 
+To remove multiple elements via CSS selector, use a dot-prefixed string target:
+
+```html
+{% turbo_stream 'remove' '.event_123' %}
+```
+
+This will generate:
+
+```html
+<turbo-stream action="remove" targets=".event_123">
+</turbo-stream>
+```
+
+From Crystal handlers, dot-prefixed string or symbol targets automatically use selector targeting:
+
+```crystal
+MartenTurbo::TurboStream.remove(".event_123")
+MartenTurbo::TurboStream.remove(:".event_123")
+```
+
 ## Handlers
 
 Marten Turbo extends the generic Marten handlers to work seamlessly with Turbo Streams. Here’s how to use them for common tasks.
+
+These handlers delegate record persistence to their Marten counterparts and only replace the success redirect with a Turbo Stream response when one is configured. Everything the generic Marten handlers offer therefore keeps working: `#prepare_record_attributes` and `#save_record` can be overridden to customize how records are built and persisted, `#record` exposes the created or updated record, and the regular handler callbacks run in their usual order.
+
+```crystal
+class ArticleCreateHandler < MartenTurbo::Handlers::RecordCreate
+  # ...
+  def prepare_record_attributes
+    super.merge({"author_id" => request.session["user_id"]})
+  end
+end
+```
 
 ### Record creation
 
@@ -120,6 +151,24 @@ class ArticleCreateHandler < MartenTurbo::Handlers::RecordCreate
 end
 ```
 
+If you want Turbo requests to stay inside the frame when the schema is invalid, add an error stream template or override:
+
+```crystal
+class ArticleCreateHandler < MartenTurbo::Handlers::RecordCreate
+  # ...
+  turbo_stream_name "articles/create.turbo_stream.html"
+  turbo_invalid_stream_name "articles/create_errors.turbo_stream.html"
+end
+```
+
+Inside `articles/create_errors.turbo_stream.html` you can re-render the form (or only the error block) and let Turbo replace the form fragment:
+
+```html
+<turbo-stream action="replace" target="article_form">
+  {% include "articles/form.html" %}
+</turbo-stream>
+```
+
 ### Record Update
 
 Similarly, to update a record:
@@ -131,6 +180,17 @@ class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
   template_name "articles/update.html"
   turbo_stream_name "articles/update.turbo_stream.html"
   success_route_name "articles"
+end
+```
+
+Record update handlers support the same pattern via `turbo_invalid_stream_name` or a `def turbo_invalid_stream` override:
+
+```crystal
+class ArticleUpdateHandler < MartenTurbo::Handlers::RecordUpdate
+  # ...
+  def turbo_invalid_stream
+    MartenTurbo::TurboStream.replace(dom_id(record || schema), render("articles/form.html"))
+  end
 end
 ```
 

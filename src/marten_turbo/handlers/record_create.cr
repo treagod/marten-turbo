@@ -31,14 +31,19 @@ module MartenTurbo
       end
 
       def process_valid_schema
-        record = model.new(schema.validated_data)
-        record.try(&.save!)
+        return super unless request.turbo? && turbo_streamable?
 
-        if request.turbo? && turbo_streamable?
-          context[self.class.record_context_name] = record
-          render_turbo_stream context
+        self.record = save_record
+        context[self.class.record_context_name] = record
+
+        render_turbo_stream context
+      end
+
+      def process_invalid_schema
+        if turbo_request? && turbo_invalid_streamable?
+          render_invalid_turbo_stream context
         else
-          Marten::HTTP::Response::Found.new success_url
+          super
         end
       end
     end

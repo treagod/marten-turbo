@@ -4,6 +4,7 @@ version: 0.3.0
 dependencies:
   marten:
     github: martenframework/marten
+    version: ">= 0.6.0"
 
 development_dependencies:
   ameba:

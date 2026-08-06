@@ -1,0 +1,7 @@
+<turbo-stream action="replace" target="tag_edit_form">
+    <div id="tag-update-errors">
+        {% for error in schema.errors.name %}
+            <p>{{ error.message }}</p>
+        {% endfor %}
+    </div>
+</turbo-stream>
