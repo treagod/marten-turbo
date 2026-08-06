@@ -7,12 +7,21 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - `turbo_invalid_stream_name` and `turbo_invalid_stream` support on Turbo handlers to render validation errors over Turbo Streams.
+- `#render_turbo_stream?` and `#render_invalid_turbo_stream?`, which resolve and render a Turbo Stream response in a single step and return `nil` when none is configured.
 - Dot-prefixed string and symbol targets now automatically emit selector-based Turbo Stream actions, for example `TurboStream.remove(".event_123")` or `TurboStream.remove(:".event_123")`.
 
 ### Changed
 - `MartenTurbo::Handlers::Concerns::Streamable` now provides request helper methods alongside private `turbo_stream` responders.
 - `RecordCreate`, `RecordUpdate` and `RecordDelete` now delegate record persistence to their Marten counterparts instead of reimplementing it. Custom `#prepare_record_attributes` and `#save_record` implementations are now respected, and `RecordCreate#record` correctly exposes the created record.
 - Marten 0.6.0 or later is now required.
+- A handler's `#turbo_stream` and `#turbo_invalid_stream` methods are now evaluated at most once per request. They were previously called both when checking whether a Turbo Stream response could be produced and again when rendering it.
+
+### Removed
+- The empty `#render(turbo_stream : TurboStream, context)` overload on `MartenTurbo::Handlers::Concerns::Rendering`, which had no behavior and no callers.
+
+### Deprecated
+- `#render_turbo_stream` and `#render_invalid_turbo_stream` in favour of `#render_turbo_stream?` and `#render_invalid_turbo_stream?`.
+- `#turbo_streamable?` and `#turbo_invalid_streamable?`. Calling them evaluates `#turbo_stream` an extra time; use the `?` renderers and fall back on their `nil` result instead.
 
 ## Marten Turbo 0.3.0
 **2025-04-01**

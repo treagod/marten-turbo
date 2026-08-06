@@ -28,32 +28,50 @@ module MartenTurbo
           end
         end
 
+        # Renders the configured turbo stream response, or returns `nil` if none is configured.
+        #
+        # A turbo stream returned by `#turbo_stream` takes precedence over `#turbo_stream_name`, and `#turbo_stream` is
+        # evaluated exactly once.
+        def render_turbo_stream?(
+          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          status : ::HTTP::Status | Int32 = 200,
+        ) : Marten::HTTP::Response?
+          if stream_obj = turbo_stream
+            turbo_stream(stream_obj, status)
+          elsif template_name = turbo_stream_name
+            turbo_stream(template_name, context: context, status: status)
+          end
+        end
+
+        # Renders the configured turbo stream response for an invalid schema, or returns `nil` if none is configured.
+        #
+        # A turbo stream returned by `#turbo_invalid_stream` takes precedence over `#turbo_invalid_stream_name`, and
+        # `#turbo_invalid_stream` is evaluated exactly once.
+        def render_invalid_turbo_stream?(
+          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          status : ::HTTP::Status | Int32 = 422,
+        ) : Marten::HTTP::Response?
+          if stream_obj = turbo_invalid_stream
+            turbo_stream(stream_obj, status)
+          elsif template_name = turbo_invalid_stream_name
+            turbo_stream(template_name, context: context, status: status)
+          end
+        end
+
+        @[Deprecated("Use `#render_turbo_stream?` instead.")]
         def render_turbo_stream(
           context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
           status : ::HTTP::Status | Int32 = 200,
         )
-          if stream_obj = turbo_stream
-            turbo_stream(stream_obj, status)
-          else
-            turbo_stream(turbo_stream_name.not_nil!, context: context, status: status)
-          end
+          render_turbo_stream?(context, status).not_nil!
         end
 
+        @[Deprecated("Use `#render_invalid_turbo_stream?` instead.")]
         def render_invalid_turbo_stream(
           context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
           status : ::HTTP::Status | Int32 = 422,
         )
-          if stream_obj = turbo_invalid_stream
-            turbo_stream(stream_obj, status)
-          else
-            turbo_stream(turbo_invalid_stream_name.not_nil!, context: context, status: status)
-          end
-        end
-
-        def render(
-          turbo_stream : TurboStream,
-          context,
-        )
+          render_invalid_turbo_stream?(context, status).not_nil!
         end
 
         def turbo_stream : MartenTurbo::TurboStream | Nil
@@ -64,10 +82,12 @@ module MartenTurbo
           nil
         end
 
+        @[Deprecated("Use `#render_turbo_stream?` instead, which resolves and renders in one step.")]
         def turbo_streamable?
           !!(turbo_stream || turbo_stream_name)
         end
 
+        @[Deprecated("Use `#render_invalid_turbo_stream?` instead, which resolves and renders in one step.")]
         def turbo_invalid_streamable?
           !!(turbo_invalid_stream || turbo_invalid_stream_name)
         end

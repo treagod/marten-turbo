@@ -55,8 +55,10 @@ end
 Handlers now gain `turbo_request?`, `turbo_frame_request?`, and `turbo_native_request?` through the `Streamable` concern, so you can branch without referencing `request` directly:
 
 ```crystal
-return render_invalid_turbo_stream if turbo_request? && turbo_invalid_streamable?
+return render_invalid_turbo_stream?(context) if turbo_request?
 ```
+
+`render_invalid_turbo_stream?` (and its `render_turbo_stream?` counterpart) resolves and renders in a single step: it returns the Turbo Stream response when one is configured and `nil` otherwise, so you can fall back with `||`. Your `#turbo_invalid_stream` method is evaluated exactly once.
 
 ## Use Cases
 

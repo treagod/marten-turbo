@@ -140,6 +140,56 @@ describe MartenTurbo::Handlers::RecordUpdate do
       response.content.strip.should contain "<div id=\"tag-update-errors\">"
     end
 
+    it "evaluates #turbo_stream once and gives it precedence over the configured template" do
+      tag = Tag.create(name: "oldtag")
+
+      params = Marten::Routing::MatchParameters{"pk" => tag.id!}
+      request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Accept"       => "text/vnd.turbo-stream.html",
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+          },
+          body: "name=updatedtag"
+        )
+      )
+      handler = MartenTurbo::Handlers::RecordUpdateSpec::TestWithCountedTurboStreamHandler.new(request, params)
+
+      response = handler.post
+
+      response.content.strip.should contain "<div>Updated Message</div>"
+      response.content.strip.should_not contain "action=\"replace\" target=\"tag_"
+      handler.turbo_stream_calls.should eq 1
+      tag.reload.name.should eq "updatedtag"
+    end
+
+    it "does not evaluate #turbo_stream for a regular request" do
+      tag = Tag.create(name: "oldtag")
+
+      params = Marten::Routing::MatchParameters{"pk" => tag.id!}
+      request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Accept"       => "text/html",
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+          },
+          body: "name=updatedtag"
+        )
+      )
+      handler = MartenTurbo::Handlers::RecordUpdateSpec::TestWithCountedTurboStreamHandler.new(request, params)
+
+      response = handler.post
+
+      response.should be_a Marten::HTTP::Response::Found
+      handler.turbo_stream_calls.should eq 0
+    end
+
     it "respects custom #prepare_record_attributes implementations" do
       tag = Tag.create(name: "oldtag")
 
@@ -206,6 +256,22 @@ module MartenTurbo::Handlers::RecordUpdateSpec
     schema TagCreateSchema
     success_route_name "dummy"
     template_name "tags/update.html"
+  end
+
+  class TestWithCountedTurboStreamHandler < MartenTurbo::Handlers::RecordUpdate
+    model Tag
+    schema TagCreateSchema
+    success_route_name "dummy"
+    template_name "tags/update.html"
+    turbo_stream_name "tags/update.turbo_stream.html"
+
+    getter turbo_stream_calls : Int32 = 0
+
+    def turbo_stream
+      @turbo_stream_calls += 1
+
+      MartenTurbo::TurboStream.replace("messages", "<div>Updated Message</div>")
+    end
   end
 
   class TestWithPreparedAttributesHandler < MartenTurbo::Handlers::RecordUpdate

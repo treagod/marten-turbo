@@ -23,11 +23,11 @@ module MartenTurbo
       include Concerns::Rendering
 
       def post
-        return super unless request.turbo? && turbo_streamable?
+        return super unless request.turbo?
 
         perform_deletion
 
-        render_turbo_stream context
+        render_turbo_stream?(context) || Marten::HTTP::Response::Found.new(success_url)
       end
 
       def delete
