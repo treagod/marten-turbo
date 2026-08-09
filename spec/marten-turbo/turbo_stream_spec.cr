@@ -174,4 +174,57 @@ describe MartenTurbo::TurboStream do
       stream.to_s.should contain "</turbo-stream>"
     end
   end
+
+  describe "attribute escaping" do
+    it "escapes double quotes in targets instead of introducing additional attributes" do
+      stream = MartenTurbo::TurboStream.remove(%(item" data-invalid="true))
+
+      stream.to_s.should contain %(target="item&quot; data-invalid=&quot;true")
+      stream.to_s.should_not contain %(data-invalid="true")
+    end
+
+    it "escapes single quotes in targets" do
+      stream = MartenTurbo::TurboStream.remove("item's")
+
+      stream.to_s.should contain %(target="item&#39;s")
+    end
+
+    it "escapes ampersands in targets" do
+      stream = MartenTurbo::TurboStream.remove("item&other")
+
+      stream.to_s.should contain %(target="item&amp;other")
+    end
+
+    it "escapes less-than and greater-than characters in targets" do
+      stream = MartenTurbo::TurboStream.remove("<script>")
+
+      stream.to_s.should contain %(target="&lt;script&gt;")
+      stream.to_s.should_not contain "<script>"
+    end
+
+    it "leaves non-ASCII characters in targets untouched" do
+      stream = MartenTurbo::TurboStream.remove("tâche_日本語")
+
+      stream.to_s.should contain %(target="tâche_日本語")
+    end
+
+    it "escapes the action name" do
+      stream = MartenTurbo::TurboStream.action(%(append" hidden="true), "messages", nil)
+
+      stream.to_s.should contain %(action="append&quot; hidden=&quot;true")
+      stream.to_s.should_not contain %(hidden="true")
+    end
+
+    it "escapes attribute values exactly once" do
+      stream = MartenTurbo::TurboStream.remove("item&other")
+
+      stream.to_s.should_not contain "&amp;amp;"
+    end
+
+    it "does not escape the rendered stream content" do
+      stream = MartenTurbo::TurboStream.append("messages", %(<div class="tag">Ben & Jerry's</div>))
+
+      stream.to_s.should contain %(<div class="tag">Ben & Jerry's</div>)
+    end
+  end
 end

@@ -16,6 +16,9 @@ All notable changes to this project will be documented in this file.
 - Marten 0.6.0 or later is now required.
 - A handler's `#turbo_stream` and `#turbo_invalid_stream` methods are now evaluated at most once per request. They were previously called both when checking whether a Turbo Stream response could be produced and again when rendering it.
 
+### Fixed
+- Values written into generated HTML attributes are now HTML-escaped: Turbo Stream action names and targets, Turbo Frame identifiers and additional Turbo Frame attributes, as well as the output of the `dom_id` template tag. A target such as `%(item" data-invalid="true)` no longer closes the attribute early and introduces additional markup. Turbo Stream template content and Turbo Frame body content are still rendered as raw HTML.
+
 ### Removed
 - The empty `#render(turbo_stream : TurboStream, context)` overload on `MartenTurbo::Handlers::Concerns::Rendering`, which had no behavior and no callers.
 

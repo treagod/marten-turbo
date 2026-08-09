@@ -169,5 +169,35 @@ describe MartenTurbo::Template::Tag::DomId do
 
       dom_id.render(context).should eq "edit_custom_id"
     end
+
+    it "escapes characters that are unsafe within an HTML attribute" do
+      parser = Marten::Template::Parser.new("")
+
+      dom_id = MartenTurbo::Template::Tag::DomId.new(parser, "dom_id my_var")
+
+      context = Marten::Template::Context{"my_var" => %(custom" data-invalid="true)}
+
+      dom_id.render(context).should eq "custom&quot; data-invalid=&quot;true"
+    end
+
+    it "escapes single quotes, ampersands and angle brackets" do
+      parser = Marten::Template::Parser.new("")
+
+      dom_id = MartenTurbo::Template::Tag::DomId.new(parser, "dom_id my_var")
+
+      context = Marten::Template::Context{"my_var" => "<a>&it's"}
+
+      dom_id.render(context).should eq "&lt;a&gt;&amp;it&#39;s"
+    end
+
+    it "leaves non-ASCII characters untouched" do
+      parser = Marten::Template::Parser.new("")
+
+      dom_id = MartenTurbo::Template::Tag::DomId.new(parser, "dom_id my_var")
+
+      context = Marten::Template::Context{"my_var" => "tâche_日本語"}
+
+      dom_id.render(context).should eq "tâche_日本語"
+    end
   end
 end

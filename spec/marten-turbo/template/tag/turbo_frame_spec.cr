@@ -60,5 +60,56 @@ describe MartenTurbo::Template::Tag::TurboFrame do
 
       content.should contain "<div>Body Content</div>"
     end
+
+    it "escapes the frame identifier instead of introducing additional attributes" do
+      parser = Marten::Template::Parser.new("<p>Test</p>{% end_turbo_frame %}")
+      tag = MartenTurbo::Template::Tag::TurboFrame.new(parser, "turbo_frame identifier")
+
+      context = Marten::Template::Context{"identifier" => %(tasks" data-invalid="true)}
+
+      content = tag.render(context)
+
+      content.should contain %(<turbo-frame id="tasks&quot; data-invalid=&quot;true">)
+      content.should_not contain %(data-invalid="true")
+    end
+
+    it "escapes single quotes, ampersands and angle brackets in the frame identifier" do
+      parser = Marten::Template::Parser.new("<p>Test</p>{% end_turbo_frame %}")
+      tag = MartenTurbo::Template::Tag::TurboFrame.new(parser, "turbo_frame identifier")
+
+      context = Marten::Template::Context{"identifier" => "<a>&it's"}
+
+      tag.render(context).should contain %(<turbo-frame id="&lt;a&gt;&amp;it&#39;s">)
+    end
+
+    it "leaves non-ASCII characters in the frame identifier untouched" do
+      parser = Marten::Template::Parser.new("<p>Test</p>{% end_turbo_frame %}")
+      tag = MartenTurbo::Template::Tag::TurboFrame.new(parser, "turbo_frame identifier")
+
+      context = Marten::Template::Context{"identifier" => "tâche_日本語"}
+
+      tag.render(context).should contain %(<turbo-frame id="tâche_日本語">)
+    end
+
+    it "escapes additional attribute values" do
+      parser = Marten::Template::Parser.new("<p>Test</p>{% end_turbo_frame %}")
+      tag = MartenTurbo::Template::Tag::TurboFrame.new(parser, "turbo_frame 'tasks' src: path")
+
+      context = Marten::Template::Context{"path" => %(/tasks?a=1&b=2" hidden="true)}
+
+      content = tag.render(context)
+
+      content.should contain %(src="/tasks?a=1&amp;b=2&quot; hidden=&quot;true")
+      content.should_not contain %(hidden="true")
+    end
+
+    it "does not escape the frame body content" do
+      parser = Marten::Template::Parser.new(
+        %(<div class="tag">Ben & Jerry's</div>{% end_turbo_frame %})
+      )
+      tag = MartenTurbo::Template::Tag::TurboFrame.new(parser, "turbo_frame 'tasks'")
+
+      tag.render(Marten::Template::Context.new).should contain %(<div class="tag">Ben & Jerry's</div>)
+    end
   end
 end

@@ -4,6 +4,7 @@ module MartenTurbo
       class DomId < Marten::Template::Tag::Base
         include Marten::Template::Tag::CanSplitSmartly
         include Identifiable
+        include Escapable
 
         @instance_name : Marten::Template::Variable
         @prefix : Marten::Template::Variable? = nil
@@ -22,7 +23,9 @@ module MartenTurbo
         end
 
         def render(context : Marten::Template::Context) : String
-          dom_id @instance_name.resolve(context).raw, @prefix.try(&.resolve(context).try(&.to_s))
+          escape_attribute(
+            dom_id(@instance_name.resolve(context).raw, @prefix.try(&.resolve(context).try(&.to_s)))
+          )
         end
       end
     end

@@ -146,5 +146,50 @@ describe MartenTurbo::Template::Tag::TurboStream do
 
       tag.render(Marten::Template::Context.new).should contain "<p>some content</p>"
     end
+
+    it "escapes a resolved target instead of introducing additional attributes" do
+      parser = Marten::Template::Parser.new("")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' target")
+
+      context = Marten::Template::Context{"target" => %(tags" data-invalid="true)}
+
+      content = tag.render(context)
+
+      content.should contain %(target="tags&quot; data-invalid=&quot;true")
+      content.should_not contain %(data-invalid="true")
+    end
+
+    it "escapes a resolved target exactly once" do
+      parser = Marten::Template::Parser.new("")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' target")
+
+      context = Marten::Template::Context{"target" => "tags&others"}
+
+      content = tag.render(context)
+
+      content.should contain %(target="tags&amp;others")
+      content.should_not contain "&amp;amp;"
+    end
+
+    it "leaves non-ASCII characters in a resolved target untouched" do
+      parser = Marten::Template::Parser.new("")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' target")
+
+      context = Marten::Template::Context{"target" => "tâche_日本語"}
+
+      tag.render(context).should contain %(target="tâche_日本語")
+    end
+
+    it "does not escape the rendered stream content" do
+      parser = Marten::Template::Parser.new(
+        <<-TEMPLATE
+          <div class="tag">Ben & Jerry's</div>
+          {% end_turbo_stream %}
+          TEMPLATE
+      )
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' 'tags' do")
+
+      tag.render(Marten::Template::Context.new).should contain %(<div class="tag">Ben & Jerry's</div>)
+    end
   end
 end

@@ -1,6 +1,7 @@
 module MartenTurbo
   class TurboStream
     include Identifiable
+    include Escapable
 
     ACTIONS = %w[append prepend replace update remove before after]
 
@@ -77,7 +78,7 @@ module MartenTurbo
 
     private def build_stream_tag(action, attribute_name : String, target_value : String, content)
       <<-TURBO_STREAM_TAG
-          <turbo-stream action="#{action}" #{attribute_name}="#{target_value}">
+          <turbo-stream action="#{escape_attribute(action)}" #{attribute_name}="#{escape_attribute(target_value)}">
             #{render_template_tag(content)}
           </turbo-stream>
         TURBO_STREAM_TAG

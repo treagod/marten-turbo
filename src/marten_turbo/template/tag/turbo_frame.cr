@@ -5,6 +5,7 @@ module MartenTurbo
         include Marten::Template::Tag::CanSplitSmartly
         include Marten::Template::Tag::CanExtractKwargs
         include Identifiable
+        include Escapable
 
         @nodes : Marten::Template::NodeSet
         @identifier_filter : Marten::Template::FilterExpression
@@ -33,7 +34,7 @@ module MartenTurbo
         def render(context : Marten::Template::Context) : String
           builder = String::Builder.new
           builder << "<turbo-frame id=\""
-          builder << dom_id(@identifier_filter.resolve(context).raw)
+          builder << escape_attribute(dom_id(@identifier_filter.resolve(context).raw))
           builder << "\""
 
           @kwargs.each do |key, expression|
@@ -48,7 +49,7 @@ module MartenTurbo
             builder << ' '
             builder << key
             builder << "=\""
-            builder << value
+            builder << escape_attribute(value)
             builder << "\""
           end
 
