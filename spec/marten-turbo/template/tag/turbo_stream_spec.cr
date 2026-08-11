@@ -90,12 +90,13 @@ describe MartenTurbo::Template::Tag::TurboStream do
       parser = Marten::Template::Parser.new("")
       tag = MartenTurbo::Template::Tag::TurboStream.new(
         parser,
-        "turbo_stream.append \"tags\" template: \"tags/tag.html\""
+        "turbo_stream 'append' 'tags' template: 'tags/tag.html'"
       )
 
       context = Marten::Template::Context{"tag" => tag_model}
 
       content = tag.render(context)
+      content.should contain %(<turbo-stream action="append" target="tags">)
       content.should contain "<div class=\"tag_#{tag_model.pk}\">"
       content.should contain "Marten Turbo"
     end
@@ -106,7 +107,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
       parser = Marten::Template::Parser.new("")
       tag = MartenTurbo::Template::Tag::TurboStream.new(
         parser,
-        "turbo_stream.append \"tags\" template: \"tags/not_existing_tag.html\""
+        "turbo_stream 'append' 'tags' template: 'tags/not_existing_tag.html'"
       )
 
       context = Marten::Template::Context{"tag" => tag_model}
@@ -123,7 +124,7 @@ describe MartenTurbo::Template::Tag::TurboStream do
       tag_model = Tag.create!(name: "Marten Turbo")
 
       parser = Marten::Template::Parser.new("")
-      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append \"tags\" template: 1")
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'append' 'tags' template: 1")
 
       context = Marten::Template::Context{"tag" => tag_model}
 
@@ -145,6 +146,25 @@ describe MartenTurbo::Template::Tag::TurboStream do
       tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream.append 'tags' do")
 
       tag.render(Marten::Template::Context.new).should contain "<p>some content</p>"
+    end
+
+    it "properly renders a turbo_stream block targeting a Marten::Model" do
+      tag_model = Tag.create!(name: "Marten Turbo")
+
+      parser = Marten::Template::Parser.new(
+        <<-TEMPLATE
+          <div>Updated article</div>
+          {% end_turbo_stream %}
+          TEMPLATE
+      )
+      tag = MartenTurbo::Template::Tag::TurboStream.new(parser, "turbo_stream 'replace' tag do")
+
+      context = Marten::Template::Context{"tag" => tag_model}
+
+      content = tag.render(context)
+
+      content.should contain %(<turbo-stream action="replace" target="tag_#{tag_model.pk}">)
+      content.should contain "<div>Updated article</div>"
     end
 
     it "escapes a resolved target instead of introducing additional attributes" do

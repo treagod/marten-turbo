@@ -14,10 +14,12 @@ All notable changes to this project will be documented in this file.
 - `MartenTurbo::Handlers::Concerns::Streamable` now provides request helper methods alongside private `turbo_stream` responders.
 - `RecordCreate`, `RecordUpdate` and `RecordDelete` now delegate record persistence to their Marten counterparts instead of reimplementing it. Custom `#prepare_record_attributes` and `#save_record` implementations are now respected, and `RecordCreate#record` correctly exposes the created record.
 - Marten 0.6.0 or later is now required.
-- A handler's `#turbo_stream` and `#turbo_invalid_stream` methods are now evaluated at most once per request. They were previously called both when checking whether a Turbo Stream response could be produced and again when rendering it.
+- `MartenTurbo::Handlers::Concerns::Streamable` now includes `MartenTurbo::Identifiable`, so `dom_id` is available in every handler that includes the concern.
+- A handler's `#turbo_stream` and `#turbo_invalid_stream` methods are now evaluated at most once per request. They used to be called once to check whether a Turbo Stream response was possible and again to render it.
 
 ### Fixed
-- Values written into generated HTML attributes are now HTML-escaped: Turbo Stream action names and targets, Turbo Frame identifiers and additional Turbo Frame attributes, as well as the output of the `dom_id` template tag. A target such as `%(item" data-invalid="true)` no longer closes the attribute early and introduces additional markup. Turbo Stream template content and Turbo Frame body content are still rendered as raw HTML.
+- Values written into generated HTML attributes are now HTML-escaped: Turbo Stream action names and targets, Turbo Frame identifiers and their additional attributes, and the output of the `dom_id` tag. Turbo Stream template content and Turbo Frame body content are still rendered as raw HTML.
+- The docs now mention that `MartenTurbo::App` has to be added to `installed_apps`, and cover the parts of the API that were missing.
 
 ### Removed
 - The empty `#render(turbo_stream : TurboStream, context)` overload on `MartenTurbo::Handlers::Concerns::Rendering`, which had no behavior and no callers.

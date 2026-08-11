@@ -159,6 +159,30 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       handler.turbo_frame_request_identifier.should eq "modal"
     end
   end
+
+  describe "#dom_id" do
+    it "is available to handlers including the concern" do
+      tag = Tag.create!(name: "Marten Turbo")
+
+      request = Marten::HTTP::Request.new(
+        ::HTTP::Request.new(
+          method: "POST",
+          resource: "",
+          headers: HTTP::Headers{
+            "Host"         => "example.com",
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "Accept"       => "text/vnd.turbo-stream.html",
+          },
+          body: ""
+        )
+      )
+      handler = MartenTurbo::Handlers::Concerns::StreamableSpec::TurboStreamDomIdHandler.new(request)
+
+      response = handler.post
+
+      response.content.strip.should contain %(<turbo-stream action="replace" target="edit_tag_#{tag.pk}">)
+    end
+  end
 end
 
 module MartenTurbo::Handlers::Concerns::StreamableSpec
@@ -213,6 +237,14 @@ module MartenTurbo::Handlers::Concerns::StreamableSpec
       turbo_stream do
         remove("tag_1")
       end
+    end
+  end
+
+  class TurboStreamDomIdHandler < Marten::Handler
+    include MartenTurbo::Handlers::Concerns::Streamable
+
+    def post
+      turbo_stream(TurboStream.replace(dom_id(Tag.last!, "edit"), "<form></form>"))
     end
   end
 end

@@ -5,6 +5,7 @@ module MartenTurbo
     module Concerns
       module Streamable
         include RequestHelpers
+        include MartenTurbo::Identifiable
 
         private def turbo_stream(
           template_name : String,

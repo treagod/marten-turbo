@@ -16,6 +16,20 @@ describe MartenTurbo::TurboStream do
       stream.to_s.should contain "<div>Message 1</div>"
       stream.to_s.should contain "</turbo-stream>"
     end
+
+    it "accepts a block defining multiple actions" do
+      stream = MartenTurbo::TurboStream.new do
+        append("articles", "<div>New Article</div>")
+        replace("article_form", "<form></form>")
+      end
+
+      content = stream.to_s
+
+      content.should contain %(<turbo-stream action="append" target="articles">)
+      content.should contain "<div>New Article</div>"
+      content.should contain %(<turbo-stream action="replace" target="article_form">)
+      content.should contain "<form></form>"
+    end
   end
 
   describe "#append" do

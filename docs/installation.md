@@ -1,45 +1,46 @@
 # Installation
 
-## Prerequisites
+Marten Turbo needs Marten 0.6.0 or later. The specs run against Crystal 1.15, 1.16 and 1.17.
 
-Before you begin, ensure you have the following installed:
-
-- **Crystal** programming language: [Installation Guide](https://crystal-lang.org/install/)
-- **Marten Framework**: Make sure your project is set up with the Marten framework.
-
-## Installation Steps
-
-To install Marten Turbo in your project, follow these steps:
-
-1. **Update your `shard.yml` file:**
-
-Add the following dependency to your `shard.yml` file:
+Add the shard to your `shard.yml`:
 
 ```yaml
 dependencies:
-    marten_turbo:
+  marten_turbo:
     github: treagod/marten-turbo
 ```
 
-2.	**Install the dependencies:**
-
-After updating shard.yml, run the following command to install the dependencies:
-
-```bash
-shards install
-```
-
-3.	**Add Marten Turbo to your project:**
-
-In your main project file (usually src/project.cr), require the Marten Turbo library by adding the following line:
+Run `shards install`, then require it in `src/project.cr`:
 
 ```crystal
 require "marten_turbo"
 ```
 
-## Post-Installation
+Requiring the shard isn't enough on its own. The template tags are registered while the app is
+set up, so `MartenTurbo::App` has to be listed in your `installed_apps`:
 
-Once the installation is complete, you can start using Marten Turbo’s features in your project. For example, you can now use the `dom_id` template helper and Turbo handlers in your Marten framework application.
+```crystal
+Marten.configure do |config|
+  config.installed_apps = [
+    MartenTurbo::App,
+    # Other applications...
+  ]
+end
+```
 
+Without it, any template using `dom_id`, `turbo_frame` or `turbo_stream` fails with an unknown
+tag error.
 
-For detailed usage instructions, refer to the [Usage Guide](usage.md).
+## Turbo itself
+
+Marten Turbo only covers the server side. It renders `<turbo-frame>` and `<turbo-stream>`
+elements and sets the right content type, but the JavaScript that reacts to them is still
+[`@hotwired/turbo`](https://turbo.hotwired.dev/handbook/installing), which you install and load
+through your own asset setup. [marten-importmap](https://github.com/treagod/marten-importmap) is
+one way to do that.
+
+## Context producers
+
+If you want to know inside a template whether the request came from a Turbo Frame or a Turbo
+Native app, register the matching context producers. See
+[requests and context producers](requests.md).
