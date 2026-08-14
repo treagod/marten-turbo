@@ -15,25 +15,24 @@ jobs:
       fail-fast: false
       matrix:
         crystal: [
-          '1.15.1',
-          '1.16.3',
-          '1.17.0',
-          'nightly',
+          '1.19',
+          '1.20',
+          '1.21',
         ]
     container:
       image: crystallang/crystal:${{ matrix.crystal }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Install required packages
-      run: |
-        apt-get update
-        apt-get -yqq install libsqlite3-dev
-    - name: Install shards
-      run: shards install --ignore-crystal-version
-    - name: Cache Crystal
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/crystal
-        key: ${{ runner.os }}-crystal
-    - name: Run specs
-      run: crystal spec
+      - uses: actions/checkout@v4
+      - name: Install required packages
+        run: |
+          apt-get update
+          apt-get -yqq install libsqlite3-dev
+      - name: Install shards
+        run: shards install --ignore-crystal-version
+      - name: Cache Crystal
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/crystal
+          key: ${{ runner.os }}-crystal-${{ matrix.crystal }}
+      - name: Run specs
+        run: crystal spec -v --error-trace --no-color

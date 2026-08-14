@@ -1,10 +1,12 @@
 name: marten_turbo
 version: 0.3.0
+crystal: ">= 1.19.0"
+license: MIT
 
 dependencies:
   marten:
     github: martenframework/marten
-    version: ">= 0.6.0"
+    version: "~> 0.6.0"
 
 development_dependencies:
   ameba:

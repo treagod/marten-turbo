@@ -1,6 +1,6 @@
 # Installation
 
-Marten Turbo needs Marten 0.6.0 or later. The specs run against Crystal 1.15, 1.16 and 1.17.
+Marten Turbo 0.3.x needs Marten 0.6.x and Crystal 1.19 or later.
 
 Add the shard to your `shard.yml`:
 

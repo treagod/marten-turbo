@@ -33,7 +33,7 @@ module MartenTurbo
         # A turbo stream returned by `#turbo_stream` takes precedence over `#turbo_stream_name`, and `#turbo_stream` is
         # evaluated exactly once.
         def render_turbo_stream?(
-          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          context : Hash | NamedTuple | Marten::Template::Context? = nil,
           status : ::HTTP::Status | Int32 = 200,
         ) : Marten::HTTP::Response?
           if stream_obj = turbo_stream
@@ -48,7 +48,7 @@ module MartenTurbo
         # A turbo stream returned by `#turbo_invalid_stream` takes precedence over `#turbo_invalid_stream_name`, and
         # `#turbo_invalid_stream` is evaluated exactly once.
         def render_invalid_turbo_stream?(
-          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          context : Hash | NamedTuple | Marten::Template::Context? = nil,
           status : ::HTTP::Status | Int32 = 422,
         ) : Marten::HTTP::Response?
           if stream_obj = turbo_invalid_stream
@@ -60,7 +60,7 @@ module MartenTurbo
 
         @[Deprecated("Use `#render_turbo_stream?` instead.")]
         def render_turbo_stream(
-          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          context : Hash | NamedTuple | Marten::Template::Context? = nil,
           status : ::HTTP::Status | Int32 = 200,
         )
           render_turbo_stream?(context, status).not_nil!
@@ -68,17 +68,17 @@ module MartenTurbo
 
         @[Deprecated("Use `#render_invalid_turbo_stream?` instead.")]
         def render_invalid_turbo_stream(
-          context : Hash | NamedTuple | Nil | Marten::Template::Context = nil,
+          context : Hash | NamedTuple | Marten::Template::Context? = nil,
           status : ::HTTP::Status | Int32 = 422,
         )
           render_invalid_turbo_stream?(context, status).not_nil!
         end
 
-        def turbo_stream : MartenTurbo::TurboStream | Nil
+        def turbo_stream : MartenTurbo::TurboStream?
           nil
         end
 
-        def turbo_invalid_stream : MartenTurbo::TurboStream | Nil
+        def turbo_invalid_stream : MartenTurbo::TurboStream?
           nil
         end
 
@@ -92,11 +92,11 @@ module MartenTurbo
           !!(turbo_invalid_stream || turbo_invalid_stream_name)
         end
 
-        def turbo_stream_name : String | Nil
+        def turbo_stream_name : String?
           self.class.turbo_stream_name
         end
 
-        def turbo_invalid_stream_name : String | Nil
+        def turbo_invalid_stream_name : String?
           self.class.turbo_invalid_stream_name
         end
       end

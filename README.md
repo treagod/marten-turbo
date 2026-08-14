@@ -17,9 +17,11 @@ Turbo Stream when the browser asks for one.
 This is the server side only. Turbo itself still needs to be installed and loaded in your
 frontend, for example through [marten-importmap](https://github.com/treagod/marten-importmap).
 
-## Requirements
+## Compatibility
 
-Marten 0.6.0 or later. The specs run against Crystal 1.15, 1.16 and 1.17.
+| Marten Turbo | Marten | Crystal |
+| --- | --- | --- |
+| 0.3.x | 0.6.x | >= 1.19 |
 
 ## Installation
 

@@ -1,21 +1,21 @@
 module MartenTurbo
   module Identifiable
     @[Deprecated("Use `#dom_id` instead")]
-    def create_dom_id(value, prefix : String | Symbol | Nil = nil)
+    def create_dom_id(value, prefix : String | Symbol? = nil)
       dom_id(value, prefix)
     end
 
-    def dom_id(value, prefix : String | Symbol | Nil = nil)
+    def dom_id(value, prefix : String | Symbol? = nil)
       dom_id = value.to_s
       prefix ? "#{prefix}_#{dom_id}" : dom_id
     end
 
     @[Deprecated("Use `#dom_id` instead")]
-    def create_dom_id(value : Marten::Model, prefix : String | Symbol | Nil = nil)
+    def create_dom_id(value : Marten::Model, prefix : String | Symbol? = nil)
       dom_id(value, prefix)
     end
 
-    def dom_id(value : Marten::Model, prefix : String | Symbol | Nil = nil)
+    def dom_id(value : Marten::Model, prefix : String | Symbol? = nil)
       generate_id_for_model(value, prefix)
     end
 

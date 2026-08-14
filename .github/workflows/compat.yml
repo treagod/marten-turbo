@@ -1,0 +1,48 @@
+name: Compatibility
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  crystal-nightly:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:nightly
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install required packages
+        run: |
+          apt-get update
+          apt-get -yqq install libsqlite3-dev
+      - name: Install shards
+        run: shards install --ignore-crystal-version
+      - name: Run specs
+        run: crystal spec -v --error-trace --no-color
+
+  marten-main:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:1.21
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install required packages
+        run: |
+          apt-get update
+          apt-get -yqq install libsqlite3-dev
+      - name: Target Marten main
+        run: |
+          cat > shard.override.yml <<'YAML'
+          dependencies:
+            marten:
+              github: martenframework/marten
+              branch: main
+          YAML
+      - name: Install shards
+        run: shards update --ignore-crystal-version
+      - name: Run specs
+        run: crystal spec -v --error-trace --no-color

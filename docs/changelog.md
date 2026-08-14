@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - `MartenTurbo::Handlers::Concerns::Streamable` now provides request helper methods alongside private `turbo_stream` responders.
 - `RecordCreate`, `RecordUpdate` and `RecordDelete` now delegate record persistence to their Marten counterparts instead of reimplementing it. Custom `#prepare_record_attributes` and `#save_record` implementations are now respected, and `RecordCreate#record` correctly exposes the created record.
-- Marten 0.6.0 or later is now required.
+- Marten is now constrained to `~> 0.6.0`, and Crystal 1.19 or later is required.
 - `MartenTurbo::Handlers::Concerns::Streamable` now includes `MartenTurbo::Identifiable`, so `dom_id` is available in every handler that includes the concern.
 - A handler's `#turbo_stream` and `#turbo_invalid_stream` methods are now evaluated at most once per request. They used to be called once to check whether a Turbo Stream response was possible and again to render it.
 
