@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## Marten Turbo 0.3.1
-**Unreleased**
+**2026-08-14**
 
 ### Added
 - `turbo_invalid_stream_name` and `turbo_invalid_stream` support on Turbo handlers to render validation errors over Turbo Streams.
