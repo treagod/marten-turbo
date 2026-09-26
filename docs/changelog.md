@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Marten Turbo 0.4.0
+**Unreleased**
+
+### Fixed
+- `Request#turbo?` no longer treats `*/*` as a Turbo Stream request. Regular browser form submissions (and requests without an `Accept` header) get the redirect again instead of a Turbo Stream response.
+
 ## Marten Turbo 0.3.1
 **2026-08-14**
 

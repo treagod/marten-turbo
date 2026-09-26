@@ -3,7 +3,7 @@
 Marten Turbo adds three predicates to `Marten::HTTP::Request`:
 
 ```crystal
-request.turbo?            # accepts text/vnd.turbo-stream.html
+request.turbo?            # Accept header lists text/vnd.turbo-stream.html
 request.turbo_frame?      # carries a Turbo-Frame header
 request.turbo_native_app? # User-Agent contains "Turbo Native"
 ```

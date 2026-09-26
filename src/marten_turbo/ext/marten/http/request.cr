@@ -1,6 +1,6 @@
 class Marten::HTTP::Request
   def turbo?
-    accepts? "text/vnd.turbo-stream.html"
+    accepted_media_types.any? { |mt| mt.media_type == MartenTurbo::TURBO_CONTENT_TYPE }
   end
 
   def turbo_frame?
