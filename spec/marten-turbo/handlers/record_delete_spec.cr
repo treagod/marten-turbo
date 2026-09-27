@@ -10,7 +10,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/html",
             "Host"   => "example.com",
@@ -34,7 +34,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/html",
             "Host"   => "example.com",
@@ -58,7 +58,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/html",
             "Host"   => "example.com",
@@ -81,7 +81,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/vnd.turbo-stream.html",
             "Host"   => "example.com",
@@ -104,7 +104,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/vnd.turbo-stream.html",
             "Host"   => "example.com",
@@ -128,7 +128,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "GET",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept" => "text/html",
             "Host"   => "example.com",

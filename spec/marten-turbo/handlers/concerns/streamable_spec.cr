@@ -7,7 +7,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -28,7 +28,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -49,7 +49,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -70,7 +70,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -94,7 +94,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       turbo_request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -109,7 +109,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       regular_request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -126,7 +126,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       native_request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -144,7 +144,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       frame_request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -167,7 +167,7 @@ describe MartenTurbo::Handlers::Concerns::Streamable do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",

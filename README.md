@@ -21,6 +21,7 @@ frontend, for example through [marten-importmap](https://github.com/treagod/mart
 
 | Marten Turbo | Marten | Crystal |
 | --- | --- | --- |
+| 0.4.x | 0.6.x, 0.7.x | >= 1.19 |
 | 0.3.x | 0.6.x | >= 1.19 |
 
 ## Installation

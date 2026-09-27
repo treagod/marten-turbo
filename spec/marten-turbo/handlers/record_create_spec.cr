@@ -6,7 +6,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/html",
             "Host"         => "example.com",
@@ -27,7 +27,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -48,7 +48,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -72,7 +72,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -98,7 +98,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -121,7 +121,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -144,7 +144,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -166,7 +166,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -187,7 +187,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -208,7 +208,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -230,7 +230,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -251,7 +251,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -273,7 +273,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -294,7 +294,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -315,7 +315,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",
@@ -337,7 +337,7 @@ describe MartenTurbo::Handlers::RecordCreate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Host"         => "example.com",
             "Content-Type" => "application/x-www-form-urlencoded",

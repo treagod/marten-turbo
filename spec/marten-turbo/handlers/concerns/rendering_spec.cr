@@ -38,7 +38,7 @@ module MartenTurbo::Handlers::Concerns::RenderingSpec
     Marten::HTTP::Request.new(
       ::HTTP::Request.new(
         method: "GET",
-        resource: "",
+        resource: "/",
         headers: HTTP::Headers{
           "Accept" => "text/vnd.turbo-stream.html",
           "Host"   => "example.com",

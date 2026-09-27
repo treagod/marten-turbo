@@ -12,7 +12,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/html",
             "Host"         => "example.com",
@@ -40,7 +40,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/html",
             "Host"         => "example.com",
@@ -68,7 +68,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/vnd.turbo-stream.html",
             "Host"         => "example.com",
@@ -96,7 +96,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/vnd.turbo-stream.html",
             "Host"         => "example.com",
@@ -122,7 +122,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/vnd.turbo-stream.html",
             "Host"         => "example.com",
@@ -147,7 +147,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/vnd.turbo-stream.html",
             "Host"         => "example.com",
@@ -173,7 +173,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/html",
             "Host"         => "example.com",
@@ -197,7 +197,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/vnd.turbo-stream.html",
             "Host"         => "example.com",
@@ -221,7 +221,7 @@ describe MartenTurbo::Handlers::RecordUpdate do
       request = Marten::HTTP::Request.new(
         ::HTTP::Request.new(
           method: "POST",
-          resource: "",
+          resource: "/",
           headers: HTTP::Headers{
             "Accept"       => "text/html",
             "Host"         => "example.com",

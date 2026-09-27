@@ -46,3 +46,26 @@ jobs:
         run: shards update --ignore-crystal-version
       - name: Run specs
         run: crystal spec -v --error-trace --no-color
+
+  marten-0-6:
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal:1.21
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install required packages
+        run: |
+          apt-get update
+          apt-get -yqq install libsqlite3-dev
+      - name: Target Marten 0.6
+        run: |
+          cat > shard.override.yml <<'YAML'
+          dependencies:
+            marten:
+              github: martenframework/marten
+              version: "~> 0.6.0"
+          YAML
+      - name: Install shards
+        run: shards update --ignore-crystal-version
+      - name: Run specs
+        run: crystal spec -v --error-trace --no-color

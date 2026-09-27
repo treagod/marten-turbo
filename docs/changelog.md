@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 ## Marten Turbo 0.4.0
-**Unreleased**
+**2026-09-27**
+
+### Changed
+- Marten 0.7 is now supported alongside Marten 0.6, with CI coverage through Crystal 1.21.
 
 ### Fixed
 - `Request#turbo?` no longer treats `*/*` as a Turbo Stream request. Regular browser form submissions (and requests without an `Accept` header) get the redirect again instead of a Turbo Stream response.
